@@ -78,7 +78,7 @@ export default class Images {
         window.addEventListener("touchmove", event => {
 
             // calcul pour savoir la direction du touchmove et changer la direction de la wheel
-            direction = event.changedTouches[0].clientY
+            direction = event.changedTouches[0].clientX
             if(direction - ancientDirection < 0){
                 scroll_speed_mobile += -(count + 2)
             }
@@ -86,7 +86,7 @@ export default class Images {
                 scroll_speed_mobile += (count + 2)
             }
             ancientDirection = direction
-            
+
             if (!this.meshs.length == 0) {
                 for (let i = 0; i < this.meshs.length; i++) {
                     //on replace chaque mesh en fonction du wheel
