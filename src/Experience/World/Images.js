@@ -69,6 +69,47 @@ export default class Images {
                 }
             }
         })
+
+        //Event pour le scroll mobile 
+        let count = 0
+        let direction
+        let ancientDirection = 0
+        let scroll_speed_mobile = 0
+        window.addEventListener("touchmove", event => {
+
+            // calcul pour savoir la direction du touchmove et changer la direction de la wheel
+            direction = event.changedTouches[0].clientY
+            if(direction - ancientDirection < 0){
+                scroll_speed_mobile += -(count + 2)
+            }
+            else{
+                scroll_speed_mobile += (count + 2)
+            }
+            ancientDirection = direction
+            
+            if (!this.meshs.length == 0) {
+                for (let i = 0; i < this.meshs.length; i++) {
+                    //on replace chaque mesh en fonction du wheel
+                    this.meshs[i].position.set(
+                        this.centerOfWheel.x + (Math.cos(this.radianInterval * i + scroll_speed_mobile) * this.radius),
+                        this.centerOfWheel.y + (Math.sin(this.radianInterval * i + scroll_speed_mobile) * this.radius),
+                        0);
+                    //Pour simuler la rotations sur le centre
+                    this.meshs[i].lookAt(this.debugObject.lookAtVector)
+                    //effet papier dans le glsl
+                    this.meshs[i].material.uniforms.uScroll.value = scroll_speed_mobile
+                }
+            }
+        })
+
+        window.addEventListener("touchend", event => {
+            for (let i = 0; i < this.meshs.length; i++) {
+                //Je lui donne 20 parce que dans vertex.glsl je fais un abs(clamp(-20,20))
+                this.meshs[i].material.uniforms.uScroll.value = 20
+                gsap.to(this.meshs[i].material.uniforms.uScroll, { duration: 0.5, value: 3, ease: 'SlowMo.ease.config(0.1, 1, false)' })
+            }
+        })
+
     }
 
     setGeometry() {
