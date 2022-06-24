@@ -13,8 +13,8 @@ void main()
     vec4 modelPosition = modelMatrix * vec4(position, 1.0);
     float frenquency = abs(clamp(uScroll, -20.0, 20.0));
 
-    float elevation = sin(modelPosition.x * frenquency *  0.75) * 0.1;
-    elevation += sin(modelPosition.y * frenquency *  0.5) * 0.1;
+    float elevation = sin(modelPosition.x * frenquency *  0.75) * 0.05;
+    elevation += sin(modelPosition.y * frenquency *  0.5) * 0.05;
 
     modelPosition.z += elevation;
 

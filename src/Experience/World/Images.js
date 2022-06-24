@@ -4,6 +4,8 @@ import gsap from 'gsap'
 import Experience from '../Experience.js'
 import imageVertexShader from './shaders/Images/vertex.glsl'
 import imageFragmentShader from './shaders/Images/fragment.glsl'
+import imageFragmentShader2 from './shaders/Images/fragment2.glsl'
+
 
 export default class Images {
     constructor() {
@@ -54,8 +56,12 @@ export default class Images {
                     this.meshs[i].lookAt(this.debugObject.lookAtVector)
                     //effet papier dans le glsl
                     this.meshs[i].material.uniforms.uScroll.value = scroll_speed
+
+                    
                 }
+                console.log(2,this.meshs[1].material.uniforms.uTexture)
             }
+
         })
 
         // Event qui attend la fin de scroll
@@ -79,10 +85,10 @@ export default class Images {
 
             // calcul pour savoir la direction du touchmove et changer la direction de la wheel
             direction = event.changedTouches[0].clientX
-            if(direction - ancientDirection < 0){
+            if (direction - ancientDirection < 0) {
                 scroll_speed_mobile += -(count + 2)
             }
-            else{
+            else {
                 scroll_speed_mobile += (count + 2)
             }
             ancientDirection = direction
@@ -119,20 +125,41 @@ export default class Images {
 
     setTextures() {
         this.textures = {}
+        this.arraytextures = []
 
-        this.textures.flag = this.resources.items.moroccoFlag
+
+        for (let item in this.resources.items) {
+            this.arraytextures.push(this.resources.items[item])
+        }
+
+        this.textures.flag = this.resources.items.ahmed1
         this.textures.flag.encoding = THREE.sRGBEncoding
     }
 
     setMaterial() {
+        this.materials = []
         this.material = new THREE.ShaderMaterial({
             vertexShader: imageVertexShader,
             fragmentShader: imageFragmentShader,
             uniforms: {
-                uTexture: { value: this.textures.flag },
+                uTexture: { value: this.arraytextures[1] },
                 uScroll: { value: 0 },
             },
         })
+        let material
+        for (let i = 0; i < 4; i++) {
+            material = new THREE.ShaderMaterial({
+                vertexShader: imageVertexShader,
+                fragmentShader: imageFragmentShader2,
+                uniforms: {
+                    uTexture: { value: this.arraytextures[3] },
+                    uScroll: { value: 0 },
+                },
+            })
+            this.materials.push(material)
+
+        }
+        
     }
 
     setMesh() {
@@ -149,10 +176,15 @@ export default class Images {
             indexZ += 0.01
             this.meshs.push(mesh)
             this.scene.add(mesh)
-            //Pour simuler la rotations sur le centre
+            //Pour simuler la rotations sur le centre des meshs
             this.meshs[i].lookAt(this.debugObject.lookAtVector)
         }
-        console.log(this.meshs[1])
+        this.meshs[0].material.uniforms.uTexture.value = this.arraytextures[0]
+        this.meshs[1].material = this.materials[1]
+        this.meshs[2].material = this.materials[2]
+        this.meshs[3].material = this.materials[3]
+        console.log(2,this.meshs[1].material.uniforms.uTexture)
+
 
         // Debug
         if (this.debug.active) {
