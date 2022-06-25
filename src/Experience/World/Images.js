@@ -46,6 +46,7 @@ export default class Images {
         let scroll_speed = 0.0;
         window.addEventListener('wheel', event => {
 
+            this.heading1.style.zIndex = '1'
             scroll_speed += event.deltaY
             // scroll_speed++
             if (!this.meshs.length == 0) {
@@ -129,11 +130,12 @@ export default class Images {
     setTextures() {
         this.textures = {}
         this.arraytextures = []
-
+        this.names = []
         // on recupere toute les texture et on les store dans un array 
         for (let item in this.resources.items) {
             // this.resources.items[item].encoding = THREE.sRGBEncoding
             this.arraytextures.push(this.resources.items[item])
+            this.names.push(item) 
         }
     }
 
@@ -168,6 +170,8 @@ export default class Images {
                 this.centerOfWheel.y + (Math.sin(this.radianInterval * i) * this.radius),
                 indexZ);
             indexZ += 0.01
+            mesh.name = this.names[i]
+
             this.meshs.push(mesh)
             this.scene.add(mesh)
             //Pour simuler la rotations sur le centre des meshs
