@@ -1,5 +1,6 @@
 import Experience from '../Experience.js'
 import Images from './Images.js'
+import Raycaster from './Raycaster.js'
 
 export default class World
 {
@@ -15,6 +16,7 @@ export default class World
         {
             // Setup
             this.images = new Images()
+            this.raycaster = new Raycaster()
         })
     }
 
