@@ -6,12 +6,12 @@ import Experience from '../Experience.js'
 import imageVertexShader from './shaders/Images/vertex.glsl'
 import imageFragmentShader from './shaders/Images/fragment.glsl'
 
-
 export default class Images {
     constructor() {
         this.experience = new Experience()
         this.scene = this.experience.scene
         this.resources = this.experience.resources
+        this.camera = this.experience.camera
         this.debug = this.experience.debug
 
         // Debug
@@ -23,7 +23,7 @@ export default class Images {
         this.debugObject.scale = new THREE.Vector2(1.164, 1.336)
         this.debugObject.speedRotationWheel = 0.0001
         this.debugObject.speedRotationMobile = 0.007
-        this.debugObject.speedRotationDrag = 0.003
+        this.debugObject.speedRotationDrag = 0.007
 
         //Steup pour la wheel 
         this.imageRadius = 1;
@@ -39,10 +39,12 @@ export default class Images {
         this.heading1 = document.querySelector('h1')
 
         // Setup
+        // this.setBlackScreen()
         this.setGeometry()
         this.setTextures()
         this.setMaterial()
         this.setMesh()
+        
 
         // Event listenner au wheel à la sourie ou au pad NE MARCHE PAS AVEC TEL 
         let scroll_speed = 0.0;
@@ -119,8 +121,8 @@ export default class Images {
         window.addEventListener("touchend", event => {
             for (let i = 0; i < this.meshs.length; i++) {
                 //Je lui donne 20 parce que dans vertex.glsl je fais un abs(clamp(-20,20))
-                this.meshs[i].material.uniforms.uScroll.value = 7
-                gsap.to(this.meshs[i].material.uniforms.uScroll, { duration: 0.5, value: 5, ease: 'SlowMo.ease.config(0.1, 1, false)' })
+                this.meshs[i].material.uniforms.uScroll.value = 3
+                gsap.to(this.meshs[i].material.uniforms.uScroll, { duration: 0.5, value: 1, ease: 'SlowMo.ease.config(0.1, 1, false)' })
             }
         })
 
@@ -163,8 +165,8 @@ export default class Images {
             window.onmousemove = null
             for (let i = 0; i < this.meshs.length; i++) {
                 //Je lui donne 20 parce que dans vertex.glsl je fais un abs(clamp(-20,20))
-                this.meshs[i].material.uniforms.uScroll.value = 7
-                gsap.to(this.meshs[i].material.uniforms.uScroll, { duration: 0.5, value: 5, ease: 'SlowMo.ease.config(0.1, 1, false)' })
+                this.meshs[i].material.uniforms.uScroll.value = 3
+                gsap.to(this.meshs[i].material.uniforms.uScroll, { duration: 0.5, value: 1, ease: 'SlowMo.ease.config(0.1, 1, false)' })
             }
         })
     }
@@ -281,16 +283,28 @@ export default class Images {
                 })
         }
 
-
-
     }
+
+    // setBlackScreen(){
+    //     let geometry = new THREE.PlaneGeometry(5, 5, 1, 1)
+
+    //     let material = new THREE.MeshBasicMaterial({
+    //         transparent: true,
+    //         depthTest: false,
+    //         opacity: 0,
+    //         color: new THREE.Color('#000000')
+    //     })
+        
+    //     this.blackScreen = new THREE.Mesh(geometry, material)
+    //     this.scene.add(this.blackScreen)
+    //     this.blackScreen.position.set(0, 5, 1)
+    // }
 
 
     resize() {
     }
 
     update() {
-
         if (this.experience.loadingBar.sceneReady) {
             this.heading1.style.transform = `translate(-50%, -50%) scale(1, 1)`
         }
