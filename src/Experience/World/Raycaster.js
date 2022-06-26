@@ -34,9 +34,9 @@ export default class Raycaster {
             // Si on a deja un object de selectionner
             if (this.currentObjectSelected) {
                 //on remet la camera à sa place
-                gsap.to(this.camera.position, { x: 0, y: 5, z: 4, duration: 0.5, ease: 'power4.inOut' })
+                gsap.to(this.camera.position, { x: 0, y: 5, z: 4, duration: 0.1, ease: 'power4.inOut' })
                 //on remet l'objet a sa place initial
-                gsap.to(this.currentObjectSelected.position, { x: initialPosition.x, y: initialPosition.y, z: initialPosition.z, duration: 0.5, ease: 'power4.inOut' })
+                gsap.to(this.currentObjectSelected.position, { x: initialPosition.x, y: initialPosition.y, z: initialPosition.z, duration: 0.1, ease: 'power4.inOut' })
                 // on remet l'index de H1 à 1
                 gsap.to(this.heading1.style, { zIndex: 1, duration: 0.5, ease: 'power4.inOut' })
                 gsap.to(this.heading1.style, { left: '50%', duration: 0.5, ease: 'power4.inOut' })
@@ -48,7 +48,7 @@ export default class Raycaster {
                 this.projectName.classList.toggle('invisible')
                 this.projectInfo.classList.toggle('invisible')
                 this.projectName.textContent = ''
-                
+                console.log('click')
 
                 //SetTimeout pour attendre la fin de l'animation gsap
                 window.setTimeout(() => {
@@ -56,7 +56,7 @@ export default class Raycaster {
                     this.currentObjectSelected.lookAt(this.ImageDebugObject.lookAtVector)
                     // on enleve l'objet selectionner
                     this.currentObjectSelected = null
-                }, 510)
+                }, 110)
 
 
 
