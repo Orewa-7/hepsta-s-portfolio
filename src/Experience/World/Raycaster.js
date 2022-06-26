@@ -67,7 +67,7 @@ export default class Raycaster {
                 if (this.currentObjectSelected == null) {
                     this.currentObjectSelected = this.currentIntersect.object
                     initialPosition = new THREE.Vector3(this.currentIntersect.object.position.x, this.currentIntersect.object.position.y, this.currentIntersect.object.position.z)
-                    gsap.to(this.heading1.style, { zIndex: -1, duration: 0.5, ease: 'power4.inOut' })
+                    gsap.to(this.heading1.style, { zIndex: -1, duration: 0.1, ease: 'power4.inOut' })
                     gsap.to(this.heading1.style, { left: '-100%', duration: 0.1, ease: 'power4.inOut' })
                     // gsap.to(this.seeMore.style, { display: 'block', duration: 0.5, ease: 'power4.inOut' })
 
@@ -97,15 +97,23 @@ export default class Raycaster {
         window.addEventListener('wheel', event => {
             if (this.currentObjectSelected) {
                 this.currentObjectSelected = null
-                gsap.to(this.camera.position, { x: 0, y: 5, z: 4, duration: 0.2, ease: 'power4.inOut' })
-                gsap.to(this.heading1.style, { left: '50%', duration: 0.5, ease: 'power4.inOut' })
+                gsap.to(this.camera.position, { x: 0, y: 5, z: 4, duration: 0.1, ease: 'power4.inOut' })
+                gsap.to(this.heading1.style, { left: '50%', duration: 0.1, ease: 'power4.inOut' })
+                this.seeMore.classList.toggle('invisible')
+                this.projectName.classList.toggle('invisible')
+                this.projectInfo.classList.toggle('invisible')
+                this.projectName.textContent = ''
             }
         })
         window.addEventListener("touchmove", event => {
             if (this.currentObjectSelected) {
                 this.currentObjectSelected = null
-                gsap.to(this.camera.position, { x: 0, y: 5, z: 4, duration: 0.2, ease: 'power4.inOut' })
+                gsap.to(this.camera.position, { x: 0, y: 5, z: 4, duration: 0.1, ease: 'power4.inOut' })
                 gsap.to(this.heading1.style, { left: '50%', duration: 0.5, ease: 'power4.inOut' })
+                this.seeMore.classList.toggle('invisible')
+                this.projectName.classList.toggle('invisible')
+                this.projectInfo.classList.toggle('invisible')
+                this.projectName.textContent = ''
             }
         })
         // si on a séléctionner la photo on desactive le dragging pendant la selection
