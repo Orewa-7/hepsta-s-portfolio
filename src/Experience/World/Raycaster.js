@@ -64,6 +64,11 @@ export default class Raycaster {
                 this.currentObjectSelected = null
             }
         })
+        window.addEventListener("touchmove", event => {
+            if (this.currentObjectSelected) {
+                this.currentObjectSelected = null
+            }
+        })
     }
 
     setMouse() {

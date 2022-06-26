@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import gsap from 'gsap'
+import normalizeWheel from 'normalize-wheel'
 
 import Experience from '../Experience.js'
 import imageVertexShader from './shaders/Images/vertex.glsl'
@@ -22,6 +23,7 @@ export default class Images {
         this.debugObject.scale = new THREE.Vector2(1.164, 1.336)
         this.debugObject.speedRotationWheel = 0.0001
         this.debugObject.speedRotationMobile = 0.007
+        this.debugObject.speedRotationDrag = 0.003
 
         //Steup pour la wheel 
         this.imageRadius = 1;
@@ -45,17 +47,19 @@ export default class Images {
         // Event listenner au wheel à la sourie ou au pad NE MARCHE PAS AVEC TEL 
         let scroll_speed = 0.0;
         window.addEventListener('wheel', event => {
+            const normalize = normalizeWheel(event)
 
             this.heading1.style.zIndex = '1'
-            scroll_speed += event.deltaY
+            // scroll_speed += event.deltaY
+            scroll_speed += 1.6666666666666667 * normalize.spinY * 200
             // scroll_speed++
             if (!this.meshs.length == 0) {
                 for (let i = 0; i < this.meshs.length; i++) {
                     this.meshs[i].position.set(
-                            (Math.cos((this.radianInterval * i - scroll_speed * this.debugObject.speedRotationWheel)  ) * this.radius) ,
-                            (Math.sin((this.radianInterval * i - scroll_speed * this.debugObject.speedRotationWheel)  ) * this.radius) ,
-                            0);
-										// gsap.to(this.meshs[i].position, {duration: 0.2, x: (Math.cos((this.radianInterval * i - scroll_speed * this.debugObject.speedRotationWheel)  ) * this.radius) })
+                        (Math.cos((this.radianInterval * i - scroll_speed * this.debugObject.speedRotationWheel)) * this.radius),
+                        (Math.sin((this.radianInterval * i - scroll_speed * this.debugObject.speedRotationWheel)) * this.radius),
+                        0);
+                    // gsap.to(this.meshs[i].position, {duration: 0.2, x: (Math.cos((this.radianInterval * i - scroll_speed * this.debugObject.speedRotationWheel)  ) * this.radius) })
                     // gsap.to(this.meshs[i].position, {duration: 0.2, y: (Math.sin((this.radianInterval * i - scroll_speed * this.debugObject.speedRotationWheel)  ) * this.radius) })
 
                     //Pour simuler la rotations sur le centre
@@ -80,29 +84,29 @@ export default class Images {
         })
 
         //Event pour le scroll mobile 
-        let count = 0
-        let direction
-        let ancientDirection = 0
+        let count_mobile = 0
+        let direction_mobile
+        let ancientDirection_mobile = 0
         let scroll_speed_mobile = 0
         // Touchemove pour mobile 
         window.addEventListener("touchmove", event => {
-            // calcul pour savoir la direction du touchmove et changer la direction de la wheel
-            direction = event.changedTouches[0].clientX
-            if (direction - ancientDirection > 0) {
-                scroll_speed_mobile += -(count + 1)
+            // calcul pour savoir la direction_mobile du touchmove et changer la direction_mobile de la wheel
+            direction_mobile = event.changedTouches[0].clientX
+            if (direction_mobile - ancientDirection_mobile > 0) {
+                scroll_speed_mobile += -(count_mobile + 1)
             }
             else {
-                scroll_speed_mobile += (count + 1)
+                scroll_speed_mobile += (count_mobile + 1)
             }
-            ancientDirection = direction
+            ancientDirection_mobile = direction_mobile
 
             // mettre en place les Meshs
             if (!this.meshs.length == 0) {
                 for (let i = 0; i < this.meshs.length; i++) {
                     //on replace chaque mesh en fonction du wheel
                     this.meshs[i].position.set(
-                        this.centerOfWheel.x + (Math.cos((this.radianInterval * i + scroll_speed_mobile * this.debugObject.speedRotationMobile) ) * this.radius),
-                        this.centerOfWheel.y + (Math.sin((this.radianInterval * i + scroll_speed_mobile * this.debugObject.speedRotationMobile) ) * this.radius),
+                        this.centerOfWheel.x + (Math.cos((this.radianInterval * i + scroll_speed_mobile * this.debugObject.speedRotationMobile)) * this.radius),
+                        this.centerOfWheel.y + (Math.sin((this.radianInterval * i + scroll_speed_mobile * this.debugObject.speedRotationMobile)) * this.radius),
                         0);
                     //Pour simuler la rotations sur le centre
                     this.meshs[i].lookAt(this.debugObject.lookAtVector)
@@ -120,6 +124,49 @@ export default class Images {
             }
         })
 
+        // Dragging le contenu
+        let count = 0
+        let direction
+        let ancientDirection = 0
+        let scroll_speed_drag = 0
+        window.addEventListener('mousedown', event => {
+            window.onmousemove = (event) => {
+
+                // calcul pour savoir la direction du touchmove et changer la direction de la wheel
+                direction = event.clientX
+                if (direction - ancientDirection > 0) {
+                    scroll_speed_drag += -(count + 1)
+                }
+                else {
+                    scroll_speed_drag += (count + 1)
+                }
+                ancientDirection = direction
+
+                // mettre en place les Meshs
+                if (!this.meshs.length == 0) {
+                    for (let i = 0; i < this.meshs.length; i++) {
+                        //on replace chaque mesh en fonction du wheel
+                        this.meshs[i].position.set(
+                            this.centerOfWheel.x + (Math.cos((this.radianInterval * i + scroll_speed_drag * this.debugObject.speedRotationDrag)) * this.radius),
+                            this.centerOfWheel.y + (Math.sin((this.radianInterval * i + scroll_speed_drag * this.debugObject.speedRotationDrag)) * this.radius),
+                            0);
+                        //Pour simuler la rotations sur le centre
+                        this.meshs[i].lookAt(this.debugObject.lookAtVector)
+                        //effet papier dans le glsl
+                        this.meshs[i].material.uniforms.uScroll.value = scroll_speed_drag
+                    }
+                }
+            }
+        })
+        // arret du drag
+        window.addEventListener('mouseup', event => {
+            window.onmousemove = null
+            for (let i = 0; i < this.meshs.length; i++) {
+                //Je lui donne 20 parce que dans vertex.glsl je fais un abs(clamp(-20,20))
+                this.meshs[i].material.uniforms.uScroll.value = 7
+                gsap.to(this.meshs[i].material.uniforms.uScroll, { duration: 0.5, value: 5, ease: 'SlowMo.ease.config(0.1, 1, false)' })
+            }
+        })
     }
 
     setGeometry() {
@@ -135,7 +182,7 @@ export default class Images {
         for (let item in this.resources.items) {
             // this.resources.items[item].encoding = THREE.sRGBEncoding
             this.arraytextures.push(this.resources.items[item])
-            this.names.push(item) 
+            this.names.push(item)
         }
     }
 
