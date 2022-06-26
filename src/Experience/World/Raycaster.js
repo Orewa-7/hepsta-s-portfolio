@@ -2,7 +2,6 @@ import * as THREE from 'three'
 import gsap from 'gsap'
 
 import Experience from '../Experience.js'
-import { ceilPowerOfTwo } from 'three/src/math/MathUtils.js'
 
 export default class Raycaster {
     constructor() {
@@ -17,7 +16,10 @@ export default class Raycaster {
         // Recup du DOM
         this.heading1 = document.querySelector('h1')
         this.body = document.getElementsByTagName("body")[0]
-
+        this.seeMore = document.querySelector('a')
+        this.projectName = document.querySelector('.project-name')
+        this.projectInfo = document.querySelector('.project-info')
+        
         // Setup
         this.clicked = false
         this.setMouse()
@@ -41,6 +43,13 @@ export default class Raycaster {
                 // // on repasse le black screen à opacite 0
                 // gsap.to(this.blackScreen.material, { opacity: 0, duration: 1, ease: 'power4.inOut' })
 
+                // On active le invisible
+                this.seeMore.classList.toggle('invisible')
+                this.projectName.classList.toggle('invisible')
+                this.projectInfo.classList.toggle('invisible')
+                this.projectName.textContent = ''
+                
+
                 //SetTimeout pour attendre la fin de l'animation gsap
                 window.setTimeout(() => {
                     //on remet la bonne rotation au mesh séléctionner
@@ -54,32 +63,35 @@ export default class Raycaster {
             }
             //Si on a pas d'object deja séléctionner ET qu'on hover un object
             else if (this.currentIntersect) {
-                // on s'assure qu'on a pas déjà un object séléctionner 
+                // on s'assure qu'on a pas déjà un object séléctionner
                 if (this.currentObjectSelected == null) {
                     this.currentObjectSelected = this.currentIntersect.object
                     initialPosition = new THREE.Vector3(this.currentIntersect.object.position.x, this.currentIntersect.object.position.y, this.currentIntersect.object.position.z)
                     gsap.to(this.heading1.style, { zIndex: -1, duration: 0.5, ease: 'power4.inOut' })
                     gsap.to(this.heading1.style, { left: '-100%', duration: 0.1, ease: 'power4.inOut' })
-                    // on centre l'objet selectionner
-                    gsap.to(this.currentIntersect.object.position, { x: 0, y: 5, z: 1.25, duration: 1, ease: 'power4.inOut' })
+                    // gsap.to(this.seeMore.style, { display: 'block', duration: 0.5, ease: 'power4.inOut' })
+
+                    // On desactive le invisible
+                    this.seeMore.classList.toggle('invisible')
+                    this.projectName.classList.toggle('invisible')
+                    this.projectInfo.classList.toggle('invisible')
+                    this.projectName.append(this.currentIntersect.object.name)
+
                     // // on repasse le black screen à opacite 0.7
                     // // gsap.to(this.blackScreen.material.uniforms.uAlpha, { value: 0.7, duration: 1, ease: 'power4.inOut' })
                     // gsap.to(this.blackScreen.material, { opacity: 0.4, duration: 1, ease: 'power4.inOut' })
+
                     // on lui dit de ragarder lui meme donc en face
                     this.currentIntersect.object.lookAt(this.currentIntersect.object.position)
 
                     // on bouge la camera et l'objet en haut
-                    gsap.to(this.camera.position, { x: 0, y: 8, z: 4, duration: 1, ease: 'power4.inOut' })
-                    gsap.to(this.currentIntersect.object.position, { x: -0.75, y: 8, z: 1, duration: 1, ease: 'power4.inOut' })
+                    gsap.to(this.currentIntersect.object.position, { x: -0.75, y: 8, z: 1, duration: 0.1, ease: 'power4.inOut' })
+                    gsap.to(this.camera.position, { x: 0, y: 8, z: 4, duration: 0.1, ease: 'power4.inOut' })
 
                 }
 
 
             }
-            window.setTimeout(() => {
-                // console.log(this.blackScreen.material.opacity)
-
-            }, 1100)
         })
         // on destock l'object selectionner si on wheel comme ça si on reclique on a pas de bug
         window.addEventListener('wheel', event => {
@@ -96,7 +108,13 @@ export default class Raycaster {
                 gsap.to(this.heading1.style, { left: '50%', duration: 0.5, ease: 'power4.inOut' })
             }
         })
-        
+        // si on a séléctionner la photo on desactive le dragging pendant la selection
+        window.addEventListener("mousedown", event => {
+            if (this.currentObjectSelected) {
+                window.onmousemove = null
+            }
+        })
+
     }
 
     setMouse() {
