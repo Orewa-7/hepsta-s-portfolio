@@ -19,12 +19,19 @@ export default class Raycaster {
         this.seeMore = document.querySelector('a')
         this.projectName = document.querySelector('.project-name')
         this.projectInfo = document.querySelector('.project-info')
+        this.canvas = document.querySelector('.webgl')
         
         // Setup
         this.clicked = false
         this.setMouse()
         this.setRaycaster()
 
+        this.seeMore.onclick = () => {
+            console.log('on a cliquer sur see more')
+        }
+        this.canvas.onclick = () => {
+            console.log('on clic sur canvas')
+        }
 
         // variable pour stocker la position initial avant le click
         let initialPosition
@@ -48,7 +55,6 @@ export default class Raycaster {
                 this.projectName.classList.toggle('invisible')
                 this.projectInfo.classList.toggle('invisible')
                 this.projectName.textContent = ''
-                console.log('click')
 
                 //SetTimeout pour attendre la fin de l'animation gsap
                 window.setTimeout(() => {
@@ -109,7 +115,7 @@ export default class Raycaster {
             if (this.currentObjectSelected) {
                 this.currentObjectSelected = null
                 gsap.to(this.camera.position, { x: 0, y: 5, z: 4, duration: 0.1, ease: 'power4.inOut' })
-                gsap.to(this.heading1.style, { left: '50%', duration: 0.5, ease: 'power4.inOut' })
+                gsap.to(this.heading1.style, { left: '50%', duration: 0.1, ease: 'power4.inOut' })
                 this.seeMore.classList.toggle('invisible')
                 this.projectName.classList.toggle('invisible')
                 this.projectInfo.classList.toggle('invisible')
