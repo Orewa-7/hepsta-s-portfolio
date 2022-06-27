@@ -16,9 +16,11 @@ export default class Raycaster {
         // Recup du DOM
         this.heading1 = document.querySelector('h1')
         this.body = document.getElementsByTagName("body")[0]
-        this.seeMore = document.querySelector('a')
+        this.seeMore = document.querySelector('.see-more')
         this.projectName = document.querySelector('.project-name')
         this.projectInfo = document.querySelector('.project-info')
+        this.blocTitle = document.querySelector('.title')
+        this.BacktoProject = document.querySelector('.back')
         this.canvas = document.querySelector('.webgl')
         
         // Setup
@@ -26,20 +28,18 @@ export default class Raycaster {
         this.setMouse()
         this.setRaycaster()
 
+        /**
+         * Event Listenner
+         */
         this.seeMore.onclick = () => {
             console.log('on a cliquer sur see more')
         }
-        this.canvas.onclick = () => {
-            console.log('on clic sur canvas')
-        }
 
-        // variable pour stocker la position initial avant le click
-        let initialPosition
-        window.addEventListener('click', () => {
-
-
+        // quand on clique sur le bouton "Back on revient dans les projets"
+        this.BacktoProject.onclick = () =>{
             // Si on a deja un object de selectionner
-            if (this.currentObjectSelected) {
+            if (this.currentObjectSelected) 
+            {
                 //on remet la camera à sa place
                 gsap.to(this.camera.position, { x: 0, y: 5, z: 4, duration: 0.1, ease: 'power4.inOut' })
                 //on remet l'objet a sa place initial
@@ -52,8 +52,9 @@ export default class Raycaster {
 
                 // On active le invisible
                 this.seeMore.classList.toggle('invisible')
-                this.projectName.classList.toggle('invisible')
+                this.blocTitle.classList.toggle('invisible')
                 this.projectInfo.classList.toggle('invisible')
+                this.BacktoProject.classList.toggle('invisible')
                 this.projectName.textContent = ''
 
                 //SetTimeout pour attendre la fin de l'animation gsap
@@ -63,29 +64,27 @@ export default class Raycaster {
                     // on enleve l'objet selectionner
                     this.currentObjectSelected = null
                 }, 110)
-
-
-
             }
+        }
+
+        // variable pour stocker la position initial avant le click
+        let initialPosition
+        window.addEventListener('click', () => {
             //Si on a pas d'object deja séléctionner ET qu'on hover un object
-            else if (this.currentIntersect) {
+            if (this.currentIntersect && !this.currentObjectSelected) {
                 // on s'assure qu'on a pas déjà un object séléctionner
                 if (this.currentObjectSelected == null) {
                     this.currentObjectSelected = this.currentIntersect.object
                     initialPosition = new THREE.Vector3(this.currentIntersect.object.position.x, this.currentIntersect.object.position.y, this.currentIntersect.object.position.z)
                     gsap.to(this.heading1.style, { zIndex: -1, duration: 0.1, ease: 'power4.inOut' })
                     gsap.to(this.heading1.style, { left: '-100%', duration: 0.1, ease: 'power4.inOut' })
-                    // gsap.to(this.seeMore.style, { display: 'block', duration: 0.5, ease: 'power4.inOut' })
 
                     // On desactive le invisible
                     this.seeMore.classList.toggle('invisible')
-                    this.projectName.classList.toggle('invisible')
+                    this.blocTitle.classList.toggle('invisible')
                     this.projectInfo.classList.toggle('invisible')
+                    this.BacktoProject.classList.toggle('invisible')
                     this.projectName.append(this.currentIntersect.object.name)
-
-                    // // on repasse le black screen à opacite 0.7
-                    // // gsap.to(this.blackScreen.material.uniforms.uAlpha, { value: 0.7, duration: 1, ease: 'power4.inOut' })
-                    // gsap.to(this.blackScreen.material, { opacity: 0.4, duration: 1, ease: 'power4.inOut' })
 
                     // on lui dit de ragarder lui meme donc en face
                     this.currentIntersect.object.lookAt(this.currentIntersect.object.position)
@@ -95,8 +94,6 @@ export default class Raycaster {
                     gsap.to(this.camera.position, { x: 0, y: 8, z: 4, duration: 0.1, ease: 'power4.inOut' })
 
                 }
-
-
             }
         })
         // on destock l'object selectionner si on wheel comme ça si on reclique on a pas de bug
@@ -106,7 +103,8 @@ export default class Raycaster {
                 gsap.to(this.camera.position, { x: 0, y: 5, z: 4, duration: 0.1, ease: 'power4.inOut' })
                 gsap.to(this.heading1.style, { left: '50%', duration: 0.1, ease: 'power4.inOut' })
                 this.seeMore.classList.toggle('invisible')
-                this.projectName.classList.toggle('invisible')
+                this.blocTitle.classList.toggle('invisible')
+                this.BacktoProject.classList.toggle('invisible')
                 this.projectInfo.classList.toggle('invisible')
                 this.projectName.textContent = ''
             }
@@ -117,7 +115,8 @@ export default class Raycaster {
                 gsap.to(this.camera.position, { x: 0, y: 5, z: 4, duration: 0.1, ease: 'power4.inOut' })
                 gsap.to(this.heading1.style, { left: '50%', duration: 0.1, ease: 'power4.inOut' })
                 this.seeMore.classList.toggle('invisible')
-                this.projectName.classList.toggle('invisible')
+                this.blocTitle.classList.toggle('invisible')
+                this.BacktoProject.classList.toggle('invisible')
                 this.projectInfo.classList.toggle('invisible')
                 this.projectName.textContent = ''
             }
