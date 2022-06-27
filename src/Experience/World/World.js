@@ -27,10 +27,10 @@ export default class World
 
     update()
     {
-        if(this.images)
-            this.images.update()  
-              
-        if(this.raycaster)
+        if(this.images && this.raycaster) {
             this.raycaster.update()
+            this.images.update()  
+        }
+            
     }
 }

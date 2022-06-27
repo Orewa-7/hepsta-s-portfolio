@@ -25,6 +25,7 @@ export default class Raycaster {
         
         // Setup
         this.clicked = false
+        this.currentObjectSelected = null
         this.setMouse()
         this.setRaycaster()
 
