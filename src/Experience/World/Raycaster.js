@@ -68,9 +68,9 @@ export default class Raycaster {
             }
         }
 
-        // variable pour stocker la position initial avant le click
-        let initialPosition
-        window.addEventListener('click', () => {
+         // variable pour stocker la position initial avant le click
+         let initialPosition
+        const clickEvent = () => {
             //Si on a pas d'object deja séléctionner ET qu'on hover un object
             if (this.currentIntersect && !this.currentObjectSelected) {
                 // on s'assure qu'on a pas déjà un object séléctionner
@@ -96,7 +96,13 @@ export default class Raycaster {
 
                 }
             }
-        })
+        }
+        //on passe l'event du click à image pour le remove quand on mousemove
+        this.clickEvent = clickEvent
+
+        // on add l'eevent du click
+        window.addEventListener('click', clickEvent)
+
         // on destock l'object selectionner si on wheel comme ça si on reclique on a pas de bug
         window.addEventListener('wheel', event => {
             if (this.currentObjectSelected) {
@@ -124,10 +130,19 @@ export default class Raycaster {
         })
         // si on a séléctionner la photo on desactive le dragging pendant la selection
         window.addEventListener("mousedown", event => {
+            
             if (this.currentObjectSelected) {
                 window.onmousemove = null
             }
         })
+
+        // on annule le onmousemove et on re add le clickevent (parce qu'on enleve dans images.js dans le onmousemove())
+        window.addEventListener("mouseup", function(e){
+            window.onmousemove = null
+            window.setTimeout(()=> {
+                window.addEventListener('click', clickEvent) 
+            })
+        });
 
     }
 

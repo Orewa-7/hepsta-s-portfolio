@@ -1,6 +1,5 @@
 import * as THREE from 'three'
 import gsap from 'gsap'
-import normalizeWheel from 'normalize-wheel'
 
 import Experience from '../Experience.js'
 import imageVertexShader from './shaders/Images/vertex.glsl'
@@ -53,24 +52,26 @@ export default class Images {
         this.currentScroll = 0
         let scroll_speed = 0.0
         window.addEventListener('wheel', event => {
-            const normalize = normalizeWheel(event)
-            this.scrollTarget = event.wheelDelta * 0.5
-            this.heading1.style.zIndex = '1'
-            scroll_speed += 1.6666666666666667 * normalize.spinY * 200
-            if (!this.meshs.length == 0) {
-                for (let i = 0; i < this.meshs.length; i++) {
-                    // this.meshs[i].position.set(
-                    //     (Math.cos((this.radianInterval * i - scroll_speed * this.debugObject.speedRotationWheel)) * this.radius),
-                    //     (Math.sin((this.radianInterval * i - scroll_speed * this.debugObject.speedRotationWheel)) * this.radius),
-                    //     0);
+            if (!this.currentObjectSelected) {
 
-                    //Pour simuler la rotations sur le centre
-                    this.meshs[i].lookAt(this.debugObject.lookAtVector)
-                    //effet papier dans le glsl
-                    this.meshs[i].material.uniforms.uScroll.value = this.currentScroll * 100
+                this.scrollTarget = event.wheelDelta * 0.5
+                this.heading1.style.zIndex = '1'
+                if (!this.meshs.length == 0) {
+                    for (let i = 0; i < this.meshs.length; i++) {
+                        // this.meshs[i].position.set(
+                        //     (Math.cos((this.radianInterval * i - scroll_speed * this.debugObject.speedRotationWheel)) * this.radius),
+                        //     (Math.sin((this.radianInterval * i - scroll_speed * this.debugObject.speedRotationWheel)) * this.radius),
+                        //     0);
 
+                        //Pour simuler la rotations sur le centre
+                        this.meshs[i].lookAt(this.debugObject.lookAtVector)
+                        //effet papier dans le glsl
+                        this.meshs[i].material.uniforms.uScroll.value = this.currentScroll * 100
+
+                    }
                 }
             }
+
 
         })
 
@@ -79,8 +80,8 @@ export default class Images {
             if (!this.meshs.length == 0) {
                 for (let i = 0; i < this.meshs.length; i++) {
                     //Je lui donne 20 parce que dans vertex.glsl je fais un abs(clamp(-20,20))
-                    this.meshs[i].material.uniforms.uScroll.value = 7
-                    gsap.to(this.meshs[i].material.uniforms.uScroll, { duration: 0.5, value: 5, ease: 'SlowMo.ease.config(0.1, 1, false)' })
+                    this.meshs[i].material.uniforms.uScroll.value = 3
+                    gsap.to(this.meshs[i].material.uniforms.uScroll, { duration: 0.5, value: 1, ease: 'SlowMo.ease.config(0.1, 1, false)' })
                 }
             }
         })
@@ -127,54 +128,53 @@ export default class Images {
         })
 
         // Dragging le contenu
-        // let count = 0
         let direction
         let ancientDirection = 0
-        // let scroll_speed_drag = 0
         window.addEventListener('mousedown', event => {
+
+            // Quand on drag and drop
             window.onmousemove = (event) => {
+                window.removeEventListener('click', this.experience.world.raycaster.clickEvent)
 
                 // calcul pour savoir la direction du touchmove et changer la direction de la wheel
                 direction = event.clientX
-                
+
                 if (direction - ancientDirection > 0) {
                     // scroll_speed_drag += -(count + 1)
-                    this.scrollTarget = 30 
+                    this.scrollTarget = 30
                 }
                 else {
                     // scroll_speed_drag += (count + 1)
-                    this.scrollTarget = -30 
+                    this.scrollTarget = -30
                 }
-                ancientDirection =  direction 
+                ancientDirection = direction
 
-                 
+
                 // mettre en place les Meshs
                 if (!this.meshs.length == 0) {
                     for (let i = 0; i < this.meshs.length; i++) {
-                        //on replace chaque mesh en fonction du wheel
-                        // this.meshs[i].position.set(
-                        //     this.centerOfWheel.x + (Math.cos((this.radianInterval * i + scroll_speed_drag * this.debugObject.speedRotationDrag)) * this.radius),
-                        //     this.centerOfWheel.y + (Math.sin((this.radianInterval * i + scroll_speed_drag * this.debugObject.speedRotationDrag)) * this.radius),
-                        //     0);
-                        //Pour simuler la rotations sur le centre
-                        //this.meshs[i].lookAt(this.debugObject.lookAtVector)
+
                         //effet papier dans le glsl
                         this.meshs[i].material.uniforms.uScroll.value = this.scrollTarget
                     }
                 }
             }
+
         })
         // arret du drag
         window.addEventListener('mouseup', event => {
             window.onmousemove = null
             window.setTimeout(() => {
                 for (let i = 0; i < this.meshs.length; i++) {
-                    //Je lui donne 20 parce que dans vertex.glsl je fais un abs(clamp(-20,20))
-                    this.meshs[i].material.uniforms.uScroll.value = 3
-                    gsap.to(this.meshs[i].material.uniforms.uScroll, { duration: 0.5, value: 1, ease: 'SlowMo.ease.config(0.1, 1, false)' })
+                    if (!this.currentObjectSelected) {
+                        //Je lui donne 20 parce que dans vertex.glsl je fais un abs(clamp(-20,20))
+                        this.meshs[i].material.uniforms.uScroll.value = 3
+                        gsap.to(this.meshs[i].material.uniforms.uScroll, { duration: 0.5, value: 1, ease: 'SlowMo.ease.config(0.1, 1, false)' })
+                    }
+
                 }
             }, 600)
-            
+
         })
     }
 
@@ -298,7 +298,7 @@ export default class Images {
                     (Math.cos((this.radianInterval * i - this.currentScroll)) * this.radius),
                     (Math.sin((this.radianInterval * i - this.currentScroll)) * this.radius),
                     0);
-                
+
                 this.meshs[i].lookAt(this.debugObject.lookAtVector)
             }
         }
