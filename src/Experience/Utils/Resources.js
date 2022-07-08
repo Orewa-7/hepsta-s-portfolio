@@ -74,7 +74,12 @@ export default class Resources extends EventEmitter
         // On ajoute le name dans la config de Texture 
         file.name = source.name
         
-        this.items[source.name] = file
+        // this.items[source.name] = file
+        this.items[source.name] = {
+            file: file,
+            projectName: source.projectName,
+            description: source.description
+        }
 
         this.loaded++
 

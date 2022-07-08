@@ -20,16 +20,15 @@ export default class Images {
             this.debugFolder = this.debug.ui.addFolder('images')
         }
         this.debugObject = {}
-        this.debugObject.lookAtVector = new THREE.Vector3(0, 5.329, 1)
+        this.debugObject.lookAtVector = new THREE.Vector3(0, 2, 1)
         this.debugObject.scale = new THREE.Vector2(1.164, 1.336)
         this.debugObject.speedRotationWheel = 0.0001
         this.debugObject.speedRotationMobile = 0.007
         this.debugObject.speedRotationDrag = 0.007
 
         //Steup pour la wheel 
-        this.imageRadius = 1;
-        this.radius = 5
-        this.numberOfImages = 25
+        this.radius = 2
+        this.numberOfImages = 5
         this.radianInterval = (2.0 * Math.PI) / this.numberOfImages
         this.centerOfWheel = {
             x: 0,
@@ -80,7 +79,7 @@ export default class Images {
             if (!this.meshs.length == 0) {
                 for (let i = 0; i < this.meshs.length; i++) {
                     //Je lui donne 20 parce que dans vertex.glsl je fais un abs(clamp(-20,20))
-                    this.meshs[i].material.uniforms.uScroll.value = 3
+                    this.meshs[i].material.uniforms.uScroll.value = 10
                     gsap.to(this.meshs[i].material.uniforms.uScroll, { duration: 0.5, value: 1, ease: 'SlowMo.ease.config(0.1, 1, false)' })
                 }
             }
@@ -122,7 +121,7 @@ export default class Images {
         window.addEventListener("touchend", event => {
             for (let i = 0; i < this.meshs.length; i++) {
                 //Je lui donne 20 parce que dans vertex.glsl je fais un abs(clamp(-20,20))
-                this.meshs[i].material.uniforms.uScroll.value = 3
+                this.meshs[i].material.uniforms.uScroll.value = 10
                 gsap.to(this.meshs[i].material.uniforms.uScroll, { duration: 0.5, value: 1, ease: 'SlowMo.ease.config(0.1, 1, false)' })
             }
         })
@@ -168,12 +167,12 @@ export default class Images {
                 for (let i = 0; i < this.meshs.length; i++) {
                     if (!this.currentObjectSelected) {
                         //Je lui donne 20 parce que dans vertex.glsl je fais un abs(clamp(-20,20))
-                        this.meshs[i].material.uniforms.uScroll.value = 3
+                        this.meshs[i].material.uniforms.uScroll.value = 10
                         gsap.to(this.meshs[i].material.uniforms.uScroll, { duration: 0.5, value: 1, ease: 'SlowMo.ease.config(0.1, 1, false)' })
                     }
 
                 }
-            }, 600)
+            }, 300)
 
         })
     }
@@ -187,12 +186,20 @@ export default class Images {
         this.textures = {}
         this.arraytextures = []
         this.names = []
+        this.descriptions = []
         // on recupere toute les texture et on les store dans un array 
         for (let item in this.resources.items) {
             // this.resources.items[item].encoding = THREE.sRGBEncoding
-            this.arraytextures.push(this.resources.items[item])
-            this.names.push(item)
+            // this.arraytextures.push(this.resources.items[item])
+            this.arraytextures.push(this.resources.items[item].file)
+            
+            // this.names.push(item)
+            this.names.push(this.resources.items[item].projectName)
+
+            // this.descriptions.push(this.resources.items[item].description)
+            this.descriptions[this.resources.items[item].projectName] = this.resources.items[item].description
         }
+        console.log(this.descriptions)
     }
 
     setMaterial() {

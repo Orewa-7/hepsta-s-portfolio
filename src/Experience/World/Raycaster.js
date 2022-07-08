@@ -7,11 +7,12 @@ export default class Raycaster {
     constructor() {
         this.experience = new Experience()
         this.scene = this.experience.scene
-        this.camera = this.experience.camera.instance
+        this.camera = this.experience.camera
         this.sizes = this.experience.sizes
         this.meshs = this.experience.world.images.meshs
         this.blackScreen = this.experience.world.images.blackScreen
         this.ImageDebugObject = this.experience.world.images.debugObject
+        this.descriptions = this.experience.world.images.descriptions
 
         // Recup du DOM
         this.heading1 = document.querySelector('h1')
@@ -42,7 +43,7 @@ export default class Raycaster {
             if (this.currentObjectSelected) 
             {
                 //on remet la camera à sa place
-                gsap.to(this.camera.position, { x: 0, y: 5, z: 4, duration: 0.1, ease: 'power4.inOut' })
+                gsap.to(this.camera.instance.position, { x: this.camera.positionDeBase.x, y: this.camera.positionDeBase.y, z: this.camera.positionDeBase.z, duration: 0.1, ease: 'power4.inOut' })
                 //on remet l'objet a sa place initial
                 gsap.to(this.currentObjectSelected.position, { x: initialPosition.x, y: initialPosition.y, z: initialPosition.z, duration: 0.1, ease: 'power4.inOut' })
                 // on remet l'index de H1 à 1
@@ -54,9 +55,10 @@ export default class Raycaster {
                 // On active le invisible
                 this.seeMore.classList.toggle('invisible')
                 this.blocTitle.classList.toggle('invisible')
-                this.projectInfo.classList.toggle('invisible')
+                // this.projectInfo.classList.toggle('invisible')
                 this.BacktoProject.classList.toggle('invisible')
                 this.projectName.textContent = ''
+                this.projectInfo.textContent = ''
 
                 //SetTimeout pour attendre la fin de l'animation gsap
                 window.setTimeout(() => {
@@ -83,16 +85,17 @@ export default class Raycaster {
                     // On desactive le invisible
                     this.seeMore.classList.toggle('invisible')
                     this.blocTitle.classList.toggle('invisible')
-                    this.projectInfo.classList.toggle('invisible')
+                    // this.projectInfo.classList.toggle('invisible')
                     this.BacktoProject.classList.toggle('invisible')
                     this.projectName.append(this.currentIntersect.object.name)
+                    this.projectInfo.append(this.descriptions[this.currentIntersect.object.name])
 
                     // on lui dit de ragarder lui meme donc en face
                     this.currentIntersect.object.lookAt(this.currentIntersect.object.position)
 
                     // on bouge la camera et l'objet en haut
-                    gsap.to(this.currentIntersect.object.position, { x: -0.75, y: 8, z: 1, duration: 0.1, ease: 'power4.inOut' })
-                    gsap.to(this.camera.position, { x: 0, y: 8, z: 4, duration: 0.1, ease: 'power4.inOut' })
+                    gsap.to(this.currentIntersect.object.position, { x: -0.75, y: 4.5, z: 1, duration: 0.1, ease: 'power4.inOut' })
+                    gsap.to(this.camera.instance.position, { x: 0, y: 4.5, z: 4, duration: 0.1, ease: 'power4.inOut' })
 
                 }
             }
@@ -107,25 +110,27 @@ export default class Raycaster {
         window.addEventListener('wheel', event => {
             if (this.currentObjectSelected) {
                 this.currentObjectSelected = null
-                gsap.to(this.camera.position, { x: 0, y: 5, z: 4, duration: 0.1, ease: 'power4.inOut' })
+                gsap.to(this.camera.instance.position, { x: this.camera.positionDeBase.x, y: this.camera.positionDeBase.y, z: this.camera.positionDeBase.z, duration: 0.1, ease: 'power4.inOut' })
                 gsap.to(this.heading1.style, { left: '50%', duration: 0.1, ease: 'power4.inOut' })
                 this.seeMore.classList.toggle('invisible')
                 this.blocTitle.classList.toggle('invisible')
                 this.BacktoProject.classList.toggle('invisible')
-                this.projectInfo.classList.toggle('invisible')
+                // this.projectInfo.classList.toggle('invisible')
                 this.projectName.textContent = ''
+                this.projectInfo.textContent = ''
             }
         })
         window.addEventListener("touchmove", event => {
             if (this.currentObjectSelected) {
                 this.currentObjectSelected = null
-                gsap.to(this.camera.position, { x: 0, y: 5, z: 4, duration: 0.1, ease: 'power4.inOut' })
+                gsap.to(this.camera.instance.position, { x: this.camera.positionDeBase.x, y: this.camera.positionDeBase.y, z: this.camera.positionDeBase.z, duration: 0.1, ease: 'power4.inOut' })
                 gsap.to(this.heading1.style, { left: '50%', duration: 0.1, ease: 'power4.inOut' })
                 this.seeMore.classList.toggle('invisible')
                 this.blocTitle.classList.toggle('invisible')
                 this.BacktoProject.classList.toggle('invisible')
-                this.projectInfo.classList.toggle('invisible')
+                // this.projectInfo.classList.toggle('invisible')
                 this.projectName.textContent = ''
+                this.projectInfo.textContent = ''
             }
         })
         // si on a séléctionner la photo on desactive le dragging pendant la selection
@@ -164,7 +169,7 @@ export default class Raycaster {
 
 
     update() {
-        this.instance.setFromCamera(this.mouse, this.camera)
+        this.instance.setFromCamera(this.mouse, this.camera.instance)
         this.intersects = this.instance.intersectObjects(this.meshs)
 
         if (this.intersects.length) {
@@ -175,7 +180,6 @@ export default class Raycaster {
             }
 
             this.currentIntersect = this.intersects[0]
-            // console.log(this.currentIntersect.object.name)
         }
         else {
             // Mouse leave

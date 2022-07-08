@@ -73,7 +73,7 @@ export default class LoadingBar
     setMesh()
     {
         this.mesh = new THREE.Mesh(this.geometry, this.material)
-        this.mesh.position.y = 5
+        this.mesh.position.y = 2
         this.scene.add(this.mesh)
     }
 }
