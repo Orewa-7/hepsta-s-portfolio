@@ -1,5 +1,6 @@
 import Experience from '../Experience.js'
 import Images from './Images.js'
+import Particles from './Particles.js'
 import Raycaster from './Raycaster.js'
 
 export default class World
@@ -17,6 +18,7 @@ export default class World
             // Setup
             this.images = new Images()
             this.raycaster = new Raycaster()
+            this.particles = new Particles()
         })
     }
 
@@ -30,6 +32,10 @@ export default class World
         if(this.images && this.raycaster) {
             this.raycaster.update()
             this.images.update()  
+        }
+
+        if(this.particles){
+            this.particles.update()
         }
             
     }

@@ -11,14 +11,13 @@ import sources from './sources.js'
 import LoadingBar from './Utils/LoadingBar.js'
 
 let instance = null
-export default class Experience
-{
-    constructor(canvas)
-    {
-        // Singleton
-        if(instance)
-        {
-            return instance
+export default class Experience {
+    constructor(canvas, reload = false) {
+        if (!reload) {
+            // Singleton
+            if (instance) {
+                return instance
+            }
         }
         instance = this
 
@@ -40,27 +39,23 @@ export default class Experience
         this.world = new World()
 
         // Resize event
-        this.sizes.on('resize', () =>
-        {
+        this.sizes.on('resize', () => {
             this.resize()
         })
 
         // Time tick event
-        this.time.on('tick', () =>
-        {
+        this.time.on('tick', () => {
             this.update()
         })
     }
 
-    resize()
-    {
+    resize() {
         this.camera.resize()
         this.renderer.resize()
         this.world.resize()
     }
 
-    update()
-    {
+    update() {
         this.camera.update()
         this.world.update()
         this.renderer.update()

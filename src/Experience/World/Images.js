@@ -22,9 +22,7 @@ export default class Images {
         this.debugObject = {}
         this.debugObject.lookAtVector = new THREE.Vector3(0, 2, 1)
         this.debugObject.scale = new THREE.Vector2(1.164, 1.336)
-        this.debugObject.speedRotationWheel = 0.0001
         this.debugObject.speedRotationMobile = 0.007
-        this.debugObject.speedRotationDrag = 0.007
 
         //Steup pour la wheel 
         this.radius = 2
@@ -37,6 +35,8 @@ export default class Images {
 
         // Recup du DOM
         this.heading1 = document.querySelector('h1')
+        // this.nav = document.querySelector('nav')
+        // this.nav.style.zIndex = '1'
 
         // Setup
         this.setGeometry()
@@ -54,7 +54,7 @@ export default class Images {
             if (!this.currentObjectSelected) {
 
                 this.scrollTarget = event.wheelDelta * 0.5
-                this.heading1.style.zIndex = '1'
+                // this.heading1.style.zIndex = '1'
                 if (!this.meshs.length == 0) {
                     for (let i = 0; i < this.meshs.length; i++) {
                         // this.meshs[i].position.set(
@@ -66,12 +66,9 @@ export default class Images {
                         this.meshs[i].lookAt(this.debugObject.lookAtVector)
                         //effet papier dans le glsl
                         this.meshs[i].material.uniforms.uScroll.value = this.currentScroll * 100
-
                     }
                 }
             }
-
-
         })
 
         // Event qui attend la fin de scroll
@@ -83,6 +80,7 @@ export default class Images {
                     gsap.to(this.meshs[i].material.uniforms.uScroll, { duration: 0.5, value: 1, ease: 'SlowMo.ease.config(0.1, 1, false)' })
                 }
             }
+
         })
 
         //Event pour le scroll mobile 
@@ -192,14 +190,13 @@ export default class Images {
             // this.resources.items[item].encoding = THREE.sRGBEncoding
             // this.arraytextures.push(this.resources.items[item])
             this.arraytextures.push(this.resources.items[item].file)
-            
+
             // this.names.push(item)
             this.names.push(this.resources.items[item].projectName)
 
             // this.descriptions.push(this.resources.items[item].description)
             this.descriptions[this.resources.items[item].projectName] = this.resources.items[item].description
         }
-        console.log(this.descriptions)
     }
 
     setMaterial() {
@@ -316,6 +313,7 @@ export default class Images {
     update() {
         if (this.experience.loadingBar.sceneReady) {
             this.heading1.style.transform = `translate(-50%, -50%) scale(1, 1)`
+            // this.nav.style.transform = `scale(1,1)`
         }
 
         this.currentObjectSelected = this.experience.world.raycaster.currentObjectSelected

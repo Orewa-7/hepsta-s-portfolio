@@ -13,6 +13,44 @@ body {
     user-select: none;
 }
 
+nav {
+    position: absolute;
+    left: 5%;
+    top: 10%;
+    width: 200px;
+    height: 100px;
+    font-size: 1.5em;
+    transform: scale(0,0);
+
+}
+
+nav li {
+    padding: 10px;
+    display: block;
+    text-align: center;
+}
+nav li a{
+    color: #f1f1f1;
+    text-decoration: none;
+    width: 100%;
+    height: 100%;
+}
+
+nav li a::after{
+    content: '';
+    display: block;
+    width: 0px;
+    height: 2px;
+    margin: 5px auto 0 auto;
+    border-radius: 2px;
+    background-color: #aaa;
+    transition: width 0.2s ease-out;
+}
+nav li a:hover::after{
+    width: 100%;
+
+}
+
 .webgl {
     position: fixed;
     top: 0;
@@ -78,7 +116,7 @@ p.project-info {
     font-weight: 200;
 }
 
-a.back {
+button.back {
     padding: 10px;
     width: 100px;
     text-align: center;
@@ -89,7 +127,7 @@ a.back {
     transition: opacity 0.5s;
 }
 
-a.see-more {
+button.see-more {
     padding: 20px;
     width: 200px;
     text-align: center;
@@ -101,6 +139,10 @@ a.see-more {
 }
 
 a:hover {
+    cursor: pointer;
+    opacity: 1;
+}
+button:hover {
     cursor: pointer;
     opacity: 1;
 }
