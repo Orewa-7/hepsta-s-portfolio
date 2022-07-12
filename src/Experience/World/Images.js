@@ -37,6 +37,8 @@ export default class Images {
         this.heading1 = document.querySelector('h1')
         // this.nav = document.querySelector('nav')
         // this.nav.style.zIndex = '1'
+        this.aboutButton = document.querySelector('.about')
+        this.passed = true
 
         // Setup
         this.setGeometry()
@@ -311,9 +313,12 @@ export default class Images {
     }
 
     update() {
-        if (this.experience.loadingBar.sceneReady) {
+        
+        if (this.experience.loadingBar.sceneReady && this.passed) {
             this.heading1.style.transform = `translate(-50%, -50%) scale(1, 1)`
+            this.aboutButton.style.transform = 'scale(1,1)'
             // this.nav.style.transform = `scale(1,1)`
+            this.passed = false
         }
 
         this.currentObjectSelected = this.experience.world.raycaster.currentObjectSelected

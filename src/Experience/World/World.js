@@ -1,7 +1,10 @@
 import Experience from '../Experience.js'
 import Images from './Images.js'
+import Parallax from './Parallax.js'
 import Particles from './Particles.js'
 import Raycaster from './Raycaster.js'
+import HeadingText from './HeadingText.js'
+import About from './About.js'
 
 export default class World
 {
@@ -19,6 +22,9 @@ export default class World
             this.images = new Images()
             this.raycaster = new Raycaster()
             this.particles = new Particles()
+            this.parallax = new Parallax()
+            this.HeadingText = new HeadingText()
+            this.about = new About()
         })
     }
 
@@ -36,6 +42,16 @@ export default class World
 
         if(this.particles){
             this.particles.update()
+        }
+
+        if(this.parallax){
+            this.parallax.update()
+        }
+        if(this.HeadingText){
+            this.HeadingText.update()
+        }
+        if(this.about){
+            this.about.update()
         }
             
     }

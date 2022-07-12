@@ -24,6 +24,7 @@ export default class Raycaster {
         this.blocTitle = document.querySelector('.title')
         this.BacktoProject = document.querySelector('.back')
         this.canvas = document.querySelector('.webgl')
+        this.aboutButton = document.querySelector('.about')
 
         /**
         * Sounds
@@ -74,6 +75,7 @@ export default class Raycaster {
                 this.BacktoProject.classList.toggle('invisible')
                 this.projectName.textContent = ''
                 this.projectInfo.textContent = ''
+                this.aboutButton.style.transform = 'scale(1, 1)'
 
                 //SetTimeout pour attendre la fin de l'animation gsap
                 window.setTimeout(() => {
@@ -109,6 +111,8 @@ export default class Raycaster {
                     this.BacktoProject.classList.toggle('invisible')
                     this.projectName.append(this.currentIntersect.object.name)
                     this.projectInfo.append(this.descriptions[this.currentIntersect.object.name])
+                    this.aboutButton.style.transform = 'scale(0, 0)'
+
 
                     // on lui dit de ragarder lui meme donc en face
                     this.currentIntersect.object.lookAt(this.currentIntersect.object.position)
