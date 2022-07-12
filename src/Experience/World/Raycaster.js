@@ -32,6 +32,10 @@ export default class Raycaster {
         const playWhooshSound = () => {
             this.whooshSound.play()
         }
+        this.mouseClick = new Audio('/Sounds/mouseClick.mp3')
+        const playMouseClick = () => {
+            this.mouseClick.play()
+        }
 
         // Setup
         this.clicked = false
@@ -86,6 +90,8 @@ export default class Raycaster {
         const clickEvent = () => {
             //Si on a pas d'object deja séléctionner ET qu'on hover un object
             if (this.currentIntersect && !this.currentObjectSelected) {
+                //play sound
+                playMouseClick()
                 // on s'assure qu'on a pas déjà un object séléctionner
                 if (this.currentObjectSelected == null) {
                     this.currentObjectSelected = this.currentIntersect.object

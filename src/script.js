@@ -13,3 +13,7 @@ let experience = new Experience(document.querySelector('canvas.webgl'))
 //         default: Fade
 //     }
 // })
+const color = 'color: #bada55'
+console.log('%c Hello, i assume that you are a curious developper ! ', color);
+console.log('%c My Name is Orewa, and i like to create some cool website like this one...', color);
+console.log('%c come check out my protfolio ', color);
