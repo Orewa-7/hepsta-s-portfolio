@@ -14,9 +14,18 @@ export default class About{
 
         this.aboutButton = document.querySelector('.about')
         this.aboutBloc = document.querySelector('.bloc-about')
+
+        /**
+        * Sounds
+        */
+         this.windSound = new Audio('/Sounds/wind.mp3')
+        this.playWindSound = () => {
+             this.windSound.play()
+         }
         
         this.isClicked = false
         this.aboutButton.onclick = () => {
+            this.playWindSound()
             this.clickEvent()
             this.isClicked = !this.isClicked
         }
@@ -31,8 +40,8 @@ export default class About{
 
     setTexture(){
         this.texture = new THREE.TextureLoader().load('/textures/hepsta.jpg', (tex) => {
-            console.log( tex.image.height/ tex.image.width )
-            console.log( this.texture.image.width/ this.texture.image.height )
+            // console.log( tex.image.height/ tex.image.width )
+            // console.log( this.texture.image.width/ this.texture.image.height )
 
         })
     }
@@ -61,6 +70,7 @@ export default class About{
         this.scene.add(this.plane)
     }
     clickEvent(){
+        this.aboutButton.onclick = null
         if(!this.isClicked){
             // on rentre
             // camera
@@ -73,6 +83,19 @@ export default class About{
             // DOM
             this.aboutBloc.classList.toggle('invisible')
             gsap.to(this.aboutBloc.style, {opacity: 1, duration: 3})
+
+            //on change le text content
+            this.aboutButton.textContent = ''
+            this.aboutButton.append('Back')
+
+            // Pour eviter que la camera bouge durant le flip
+            window.setTimeout(()=>{
+                this.aboutButton.onclick = () => {
+                    this.playWindSound()
+                    this.clickEvent()
+                    this.isClicked = !this.isClicked
+                }
+            }, 1000)
 
 
         } else {
@@ -88,8 +111,21 @@ export default class About{
             this.aboutBloc.classList.toggle('invisible')
             gsap.to(this.aboutBloc.style, {opacity: 0, duration: 0.3})
 
-        }
+            //on change le text content
+            this.aboutButton.textContent = ''
+            this.aboutButton.append('About')
 
+            // Pour eviter que la camera bouge durant le flip
+            window.setTimeout(()=>{
+                this.aboutButton.onclick = () => {
+                    this.playWindSound()
+                    this.clickEvent()
+                    this.isClicked = !this.isClicked
+                }
+            }, 1000)
+
+        }
+        
     }
     update(){
 
