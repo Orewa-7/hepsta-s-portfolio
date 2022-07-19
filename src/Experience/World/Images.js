@@ -34,6 +34,7 @@ export default class Images {
         }
 
         // Recup du DOM
+        this.scrollIndicator = document.querySelector('.scroll-indicator-section')
         this.heading1 = document.querySelector('h1')
         // this.nav = document.querySelector('nav')
         // this.nav.style.zIndex = '1'
@@ -53,6 +54,10 @@ export default class Images {
         this.currentScroll = 0
         let scroll_speed = 0.0
         window.addEventListener('wheel', event => {
+
+            gsap.to(this.scrollIndicator, {opacity: 0, duration: 1})
+            gsap.to(this.scrollIndicator, {scaleX: 0, scaleY:0, delay:1})
+            
             if (!this.currentObjectSelected) {
 
                 this.scrollTarget = event.wheelDelta * 0.5
@@ -130,6 +135,10 @@ export default class Images {
         let direction
         let ancientDirection = 0
         window.addEventListener('mousedown', event => {
+
+            gsap.to(this.scrollIndicator, {opacity: 0, duration: 1})
+            gsap.to(this.scrollIndicator, {scaleX: 0, scaleY:0, delay:1})
+
 
             // Quand on drag and drop
             window.onmousemove = (event) => {
@@ -318,6 +327,7 @@ export default class Images {
             this.heading1.style.transform = `translate(-50%, -50%) scale(1, 1)`
             this.aboutButton.style.transform = 'scale(1,1)'
             // this.nav.style.transform = `scale(1,1)`
+            gsap.to(this.scrollIndicator, {opacity: 0.7, duration: 2})
             this.passed = false
         }
 
