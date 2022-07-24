@@ -24,7 +24,8 @@ export default class Raycaster {
         this.blocTitle = document.querySelector('.title')
         this.BacktoProject = document.querySelector('.button-back')
         this.canvas = document.querySelector('.webgl')
-        this.aboutButton = document.querySelector('.about')
+        // this.aboutButton = document.querySelector('.about')
+        this.aboutButton = document.querySelector('.button-about')
 
         /**
         * Sounds

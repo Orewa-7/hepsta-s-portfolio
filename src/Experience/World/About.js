@@ -12,8 +12,11 @@ export default class About{
         this.camera = this.experience.camera
         this.debug = this.experience.debug
 
-        this.aboutButton = document.querySelector('.about')
+        // this.aboutButton = document.querySelector('.about')
+        this.aboutButton = document.querySelector('.button-about')
         this.aboutBloc = document.querySelector('.bloc-about')
+        this.firstArrow = document.querySelector('.arrow-first-left')
+        this.secondArrow = document.querySelector('.arrow-second-left')
 
         /**
         * Sounds
@@ -42,7 +45,6 @@ export default class About{
         this.texture = new THREE.TextureLoader().load('/textures/hepsta.jpg', (tex) => {
             // console.log( tex.image.height/ tex.image.width )
             // console.log( this.texture.image.width/ this.texture.image.height )
-
         })
     }
 
@@ -85,8 +87,12 @@ export default class About{
             gsap.to(this.aboutBloc.style, {opacity: 1, duration: 3})
 
             //on change le text content
-            this.aboutButton.textContent = ''
-            this.aboutButton.append('Back')
+            // this.aboutButton.textContent = ''
+            // this.aboutButton.append('Back')
+            this.firstArrow.classList.remove('arrow-first-left')
+            this.secondArrow.classList.remove('arrow-second-left')
+            this.firstArrow.classList.add('arrow-first-right')
+            this.secondArrow.classList.add('arrow-second-right')
 
             // Pour eviter que la camera bouge durant le flip
             window.setTimeout(()=>{
@@ -112,8 +118,13 @@ export default class About{
             gsap.to(this.aboutBloc.style, {opacity: 0, duration: 0.3})
 
             //on change le text content
-            this.aboutButton.textContent = ''
-            this.aboutButton.append('About')
+            // this.aboutButton.textContent = ''
+            // this.aboutButton.append('About')
+            this.firstArrow.classList.remove('arrow-first-right')
+            this.secondArrow.classList.remove('arrow-second-right')
+            this.firstArrow.classList.add('arrow-first-left')
+            this.secondArrow.classList.add('arrow-second-left')
+
 
             // Pour eviter que la camera bouge durant le flip
             window.setTimeout(()=>{

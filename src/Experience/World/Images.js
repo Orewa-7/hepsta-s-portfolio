@@ -39,7 +39,8 @@ export default class Images {
         this.heading1 = document.querySelector('h1')
         // this.nav = document.querySelector('nav')
         // this.nav.style.zIndex = '1'
-        this.aboutButton = document.querySelector('.about')
+        // this.aboutButton = document.querySelector('.about')
+        this.aboutButton = document.querySelector('.button-about')
         this.passed = true
 
         // Setup
@@ -67,10 +68,6 @@ export default class Images {
                 // this.heading1.style.zIndex = '1'
                 if (!this.meshs.length == 0) {
                     for (let i = 0; i < this.meshs.length; i++) {
-                        // this.meshs[i].position.set(
-                        //     (Math.cos((this.radianInterval * i - scroll_speed * this.debugObject.speedRotationWheel)) * this.radius),
-                        //     (Math.sin((this.radianInterval * i - scroll_speed * this.debugObject.speedRotationWheel)) * this.radius),
-                        //     0);
 
                         //Pour simuler la rotations sur le centre
                         this.meshs[i].lookAt(this.debugObject.lookAtVector)
@@ -141,8 +138,6 @@ export default class Images {
 
             if (!this.scrollDisapear) {
                 const tl = gsap.timeline()
-                // gsap.to(this.scrollIndicator, {opacity: 0, duration: 1})
-                // gsap.to(this.scrollIndicator, {scaleX: 0, scaleY:0}).delay(1)
                 tl.to(this.scrollIndicator, { opacity: 0, duration: 1 })
                     .to(this.scrollIndicator, { scaleX: 0, scaleY: 0 })
                 this.scrollDisapear = true
