@@ -10,6 +10,7 @@ body {
     background-color: #333;
     color: #f1f1f1;
     font-family: 'Courier New', Courier, monospace;
+    font-family: Arial, Helvetica, sans-serif;
     user-select: none;
 }
 
@@ -72,27 +73,26 @@ div.title {
 
 
 h2.project-name {
-    font-size: 2em;
-    text-align: center;
+    font-size: 3em;
+    /* text-align: center; */
+    text-align: start;
 }
 
 p.project-info {
-    text-align: center;
+    /* text-align: center; */
+    text-align: start;
     font-size: 1.5em;
     font-weight: 200;
 }
 
-button.back {
-    padding: 10px;
-    width: 100px;
-    text-align: center;
-    font-size: 1.5em;
-    border-radius: 10px;
-    border: 1px solid;
-    opacity: 0.5;
-    transition: opacity 0.5s;
-}
+/**Footer description ********************/
 
+.footer-description{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 button.see-more {
     padding: 20px;
     width: 200px;
@@ -104,6 +104,64 @@ button.see-more {
     transition: opacity 0.5s;
 }
 
+/**Back from desciption*****************************/
+.button-back{
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border: 3px solid white;
+    border-radius: 50%;
+    opacity: 0.5;
+}
+.button-back:hover{
+    cursor: pointer;
+    opacity: 1;
+}
+.arrows{
+    width: 100%;
+    height: 100%;
+}
+.arrow-first-down{
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    height: 10px;
+    width: 10px;
+    border-bottom: 2px solid aliceblue;
+    border-left: 2px solid aliceblue;
+    transform:  translate(-50%, -50%) rotate(315deg) ;
+    animation: arrowFade 3s 0.2s infinite ease-out;
+}
+.arrow-second-down{
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    height: 10px;
+    width: 10px;
+    border-bottom: 2px solid aliceblue;
+    border-left: 2px solid aliceblue;
+    transform: translate(-50%, -50%) rotate(315deg);
+    animation: arrowFade 3s  infinite ease-out;
+}
+
+@keyframes arrowFade {
+    0% {opacity: 1; transform: translateY(0px) scale(1) translate(-50%, -50%)rotate(315deg) ;}
+  25%{opacity: 0; transform:translateY(10px) scale(0.9) translate(-50%, -50%) rotate(315deg);}
+  26%{opacity: 0; transform:translateY(-10px) scale(0.9) translate(-50%, -50%) rotate(315deg);}
+  55% {opacity: 1; transform: translateY(0px) scale(1) translate(-50%, -50%) rotate(315deg);}
+}
+/* button.back {
+    padding: 10px;
+    width: 100px;
+    text-align: center;
+    font-size: 1.5em;
+    border-radius: 10px;
+    border: 1px solid;
+    opacity: 0.5;
+    transition: opacity 0.5s;
+} */
+
+/** About ***************************************/
 button.about {
     position: absolute;
     top: 10%;
@@ -127,7 +185,8 @@ button.about {
     width: 500px;
     height: 60vh;
     font-size: 1.5em;
-    text-align: center;
+    /* text-align: center; */
+    text-align: start;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -246,7 +305,7 @@ button:hover {
     position: relative;
     height: 80px;
     width: 44px;
-    border: 1px solid #f1f1f1;
+    border: 2px solid #f1f1f1;
     border-radius: 25%;
 }
 .scroll-mouse::after{
@@ -256,7 +315,7 @@ button:hover {
     left: 50%;
     background-color: #f1f1f1;
     height: 5px;
-    width: 1px;
+    width: 2px;
     animation: scroll 2s infinite;
 }
 @keyframes scroll {

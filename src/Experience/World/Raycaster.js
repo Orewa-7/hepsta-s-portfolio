@@ -22,7 +22,7 @@ export default class Raycaster {
         this.projectName = document.querySelector('.project-name')
         this.projectInfo = document.querySelector('.project-info')
         this.blocTitle = document.querySelector('.title')
-        this.BacktoProject = document.querySelector('.back')
+        this.BacktoProject = document.querySelector('.button-back')
         this.canvas = document.querySelector('.webgl')
         this.aboutButton = document.querySelector('.about')
 
