@@ -52,7 +52,6 @@ export default class Raycaster {
         this.BacktoProject.onclick = () => {
             // Si on a deja un object de selectionner
             if (this.currentObjectSelected) {
-                console.log(this.currentObjectSelected)
                 playWhooshSound()
                 //on remet la camera à sa place
                 gsap.to(this.camera.instance.position, { x: this.camera.positionDeBase.x, y: this.camera.positionDeBase.y, z: this.camera.positionDeBase.z, duration: 1, ease: 'power4.inOut' })
