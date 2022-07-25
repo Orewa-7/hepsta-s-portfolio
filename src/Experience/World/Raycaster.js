@@ -52,6 +52,7 @@ export default class Raycaster {
         this.BacktoProject.onclick = () => {
             // Si on a deja un object de selectionner
             if (this.currentObjectSelected) {
+                console.log(this.currentObjectSelected)
                 playWhooshSound()
                 //on remet la camera à sa place
                 gsap.to(this.camera.instance.position, { x: this.camera.positionDeBase.x, y: this.camera.positionDeBase.y, z: this.camera.positionDeBase.z, duration: 1, ease: 'power4.inOut' })
@@ -127,36 +128,6 @@ export default class Raycaster {
 
         // on add l'eevent du click
         window.addEventListener('click', clickEvent)
-
-        // on destock l'object selectionner si on wheel comme ça si on reclique on a pas de bug
-        // window.addEventListener('wheel', event => {
-        //     if (this.currentObjectSelected) {
-        //         this.currentObjectSelected = null
-        //         gsap.to(this.camera.instance.position, { x: this.camera.positionDeBase.x, y: this.camera.positionDeBase.y, z: this.camera.positionDeBase.z, duration: 0.1, ease: 'power4.inOut' })
-
-        //         gsap.to(this.heading1.style, { zIndex: 1, duration: 0.5, ease: 'power4.inOut' })
-        //         gsap.to(this.heading1.style, { left: '50%', duration: 0.5, ease: 'power4.inOut' })
-        //         this.seeMore.classList.toggle('invisible')
-        //         this.blocTitle.classList.toggle('invisible')
-        //         this.BacktoProject.classList.toggle('invisible')
-        //         // this.projectInfo.classList.toggle('invisible')
-        //         this.projectName.textContent = ''
-        //         this.projectInfo.textContent = ''
-        //     }
-        // })
-        // window.addEventListener("touchmove", event => {
-        //     if (this.currentObjectSelected) {
-        //         this.currentObjectSelected = null
-        //         gsap.to(this.camera.instance.position, { x: this.camera.positionDeBase.x, y: this.camera.positionDeBase.y, z: this.camera.positionDeBase.z, duration: 0.1, ease: 'power4.inOut' })
-        //         gsap.to(this.heading1.style, { left: '50%', duration: 0.1, ease: 'power4.inOut' })
-        //         this.seeMore.classList.toggle('invisible')
-        //         this.blocTitle.classList.toggle('invisible')
-        //         this.BacktoProject.classList.toggle('invisible')
-        //         // this.projectInfo.classList.toggle('invisible')
-        //         this.projectName.textContent = ''
-        //         this.projectInfo.textContent = ''
-        //     }
-        // })
 
         // si on a séléctionner la photo on desactive le dragging pendant la selection
         window.addEventListener("mousedown", event => {

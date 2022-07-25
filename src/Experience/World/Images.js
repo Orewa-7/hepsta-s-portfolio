@@ -54,7 +54,6 @@ export default class Images {
         this.scroll = 0
         this.scrollTarget = 0
         this.currentScroll = 0
-        let scroll_speed = 0.0
         window.addEventListener('wheel', event => {
             if (!this.scrollDisapear) {
                 gsap.to(this.scrollIndicator, { opacity: 0, duration: 1 })

@@ -10,6 +10,7 @@ export default class Project {
         this.scene = this.experience.scene
         this.camera = this.experience.camera
         this.debug = this.experience.debug
+        this.currentObjectSelected = null
 
         this.scaleUpdated = false
         this.isClickedSeeMore = false
@@ -21,6 +22,12 @@ export default class Project {
         this.scrollIndicator = document.querySelector('.description-scroll-container')
 
 
+        this.scrollTarget = 0
+        this.currentScroll = 0
+        this.scroll = 0
+        window.addEventListener('wheel', event => {
+            this.projectsWheelHandler(event)
+        })
 
         this.seeMore.onclick = () => {
             this.clickSeeMore()
@@ -28,37 +35,44 @@ export default class Project {
 
         this.setPiano()
     }
+    projectsWheelHandler(event) {
+        this.scrollTarget = event.wheelDelta
+    }
 
     clickSeeMore() {
 
-        if (!this.isClickedSeeMore && !gsap.isTweening(this.camera.instance.rotation)) 
-        {
-            gsap.to(this.camera.instance.rotation, { y: this.camera.instance.rotation.y - Math.PI * 0.5, duration: 1})
+        if (!this.isClickedSeeMore && !gsap.isTweening(this.camera.instance.rotation)) {
+            gsap.to(this.camera.instance.rotation, { y: this.camera.instance.rotation.y - Math.PI * 0.5, duration: 1 })
 
             const tl = gsap.timeline()
 
             tl.to(this.BacktoProject, { scaleX: 0, scaleY: 0, duration: 0.5 })
-            tl.call(()=> {
-            this.BacktoProject.classList.toggle('invisible')
-            this.scrollIndicator.classList.toggle('invisible')
-            })
-            tl.to(this.scrollIndicator, { scaleX: 1, scaleY: 1, duration: 0.5, ease: 'back.out(1.7)' })
-            
-
-            this.isClickedSeeMore = !this.isClickedSeeMore
-        } 
-        else if (this.isClickedSeeMore && !gsap.isTweening(this.camera.instance.rotation)) 
-        {
-            gsap.to(this.camera.instance.rotation, { y: this.camera.instance.rotation.y + Math.PI * 0.5, duration: 1})
-            
-            const tl = gsap.timeline()
-            tl.to(this.scrollIndicator, {scaleX: 0, scaleY:0, duration: 0.5})
-            tl.call(()=> {
+            tl.call(() => {
                 this.BacktoProject.classList.toggle('invisible')
                 this.scrollIndicator.classList.toggle('invisible')
-                })
+            })
+            tl.to(this.scrollIndicator, { scaleX: 1, scaleY: 1, duration: 0.5, ease: 'back.out(1.7)' })
+            switch (this.currentObjectSelected.name) {
+                case 'Le Piano': this.setOpacitypiano(true)
+                    break
+            }
+
+            this.isClickedSeeMore = !this.isClickedSeeMore
+        }
+        else if (this.isClickedSeeMore && !gsap.isTweening(this.camera.instance.rotation)) {
+            gsap.to(this.camera.instance.rotation, { y: this.camera.instance.rotation.y + Math.PI * 0.5, duration: 1 })
+
+            const tl = gsap.timeline()
+            tl.to(this.scrollIndicator, { scaleX: 0, scaleY: 0, duration: 0.5 })
+            tl.call(() => {
+                this.BacktoProject.classList.toggle('invisible')
+                this.scrollIndicator.classList.toggle('invisible')
+            })
             tl.to(this.BacktoProject, { scaleX: 1, scaleY: 1, duration: 0.5, ease: 'back.out(1.7)' })
-            
+            switch (this.currentObjectSelected.name) {
+                case 'Le Piano': this.setOpacitypiano(false)
+                    break
+            }
 
             this.isClickedSeeMore = !this.isClickedSeeMore
         }
@@ -70,7 +84,6 @@ export default class Project {
         this.setPianoMaterial()
         this.setPianoMesh()
     }
-
     setPianoTexture() {
         this.pianoScaleRatio = []
         this.pianoTextures = []
@@ -92,7 +105,7 @@ export default class Project {
 
         for (let i = 0; i < 16; i++) {
             this.pianoTextures[i].encoding = THREE.sRGBEncoding
-            const material = new THREE.MeshBasicMaterial({ map: this.pianoTextures[i] })
+            const material = new THREE.MeshBasicMaterial({ map: this.pianoTextures[i], transparent: true, opacity: 0 })
             this.pianoMaterials.push(material)
         }
     }
@@ -113,17 +126,43 @@ export default class Project {
     }
     updatePianoScale() {
         for (let i = 0; i < 16; i++) {
-            console.log(i, this.pianoMeshs[i].material.map.source.data.height / this.pianoMeshs[i].material.map.source.data.width, this.pianoScaleRatio[i])
             this.pianoMeshs[i].scale.set(1, this.pianoScaleRatio[i])
         }
         this.scaleUpdated = true
     }
+    setOpacitypiano(opacity){
+        if(opacity){
+            for(let i = 0; i < 16; i++){
+                gsap.to(this.pianoMeshs[i].material, {opacity: 1, duration: 1})
+            }
+        }else {
+            for(let i = 0; i < 16; i++){
+                gsap.to(this.pianoMeshs[i].material, {opacity: 0, duration: 1})
+            }
+        }
+
+    }
+    updateMeshs() {
+        if (this.pianoMeshs) {
+            let margin = 2
+            let wholeWidth = margin * this.pianoMeshs.length
+            for (let i = 0; i < 16; i++) {
+                this.pianoMeshs[i].position.y = (margin * i + this.currentScroll + 42069 * wholeWidth) % wholeWidth - 5 * margin
+            }
+        }
+    }
 
     update() {
-
         if (!this.scaleUpdated && this.pianoScaleRatio.length == 16 && this.pianoMeshs.length == 16) {
             this.updatePianoScale()
-
         }
+        this.updateMeshs()
+        this.scroll += (this.scrollTarget - this.scroll) * 0.1
+        this.scrollTarget *= 0.9
+        this.scroll *= 0.9
+        this.currentScroll += this.scroll * 0.01
+
+        this.currentObjectSelected = this.experience.world.raycaster.currentObjectSelected
+
     }
 }
