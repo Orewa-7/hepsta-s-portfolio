@@ -5,6 +5,7 @@ import Particles from './Particles.js'
 import Raycaster from './Raycaster.js'
 import HeadingText from './HeadingText.js'
 import About from './About.js'
+import Project from './Project.js'
 
 export default class World
 {
@@ -25,6 +26,7 @@ export default class World
             this.parallax = new Parallax()
             this.HeadingText = new HeadingText()
             this.about = new About()
+            this.project = new Project()
         })
     }
 
@@ -52,6 +54,9 @@ export default class World
         }
         if(this.about){
             this.about.update()
+        }
+        if(this.project){
+            this.project.update()
         }
             
     }

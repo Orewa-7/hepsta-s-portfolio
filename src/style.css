@@ -52,7 +52,7 @@ h1 {
     font-size: 2em;
     cursor: default;
 }
-
+/**Description du projet **************/
 div.bloc-description {
     position: absolute;
     right: 0%;
@@ -76,6 +76,7 @@ h2.project-name {
     font-size: 3em;
     /* text-align: center; */
     text-align: start;
+    letter-spacing: 3px;
 }
 
 p.project-info {
@@ -86,7 +87,11 @@ p.project-info {
 }
 
 /**Footer description ********************/
-
+.description-scroll-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 .footer-description{
     width: 100%;
     display: flex;
@@ -259,10 +264,10 @@ button.see-more {
 
 .bloc-about {
     position: absolute;
-    top: 20%;
+    top: 10%;
     right: 10%;
     width: 500px;
-    height: 60vh;
+    height: 80vh;
     font-size: 1.5em;
     /* text-align: center; */
     text-align: start;
@@ -272,7 +277,14 @@ button.see-more {
     user-select: text;
 
 }
-
+.about-title{
+    font-size: 3em;
+    letter-spacing: 3px;
+}
+.about-text{
+    /* font-family:'Courier New', Courier, monospace; */
+    font-family: 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
 a {
     color: aqua;
     text-decoration: none;
@@ -302,11 +314,6 @@ button:hover {
     display: none;
 }
 
-@media screen and (max-width: 1240px) {
-    p.project-info {
-        font-size: 0.75em;
-    }
-}
 
 /** Scroll indicator*******************************/
 .scroll-indicator-section {

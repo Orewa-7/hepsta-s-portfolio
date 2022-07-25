@@ -48,10 +48,6 @@ export default class Raycaster {
         /**
          * Event Listenner
          */
-        this.seeMore.onclick = () => {
-            console.log('on a cliquer sur see more')
-        }
-
         // quand on clique sur le bouton "Back on revient dans les projets"
         this.BacktoProject.onclick = () => {
             // Si on a deja un object de selectionner
