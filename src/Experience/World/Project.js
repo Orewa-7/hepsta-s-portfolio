@@ -57,12 +57,16 @@ export default class Project {
         this.setPortraitsII()
     }
     projectsWheelHandler(event) {
-        this.scrollTarget = event.wheelDelta
+        this.scrollTarget = -event.wheelDelta
     }
 
     clickSeeMore() {
 
         if (!this.isClickedSeeMore && !gsap.isTweening(this.camera.instance.rotation)) {
+            window.setTimeout(()=>{
+                this.scrollTarget = 50
+            }, 1000)
+
             gsap.to(this.camera.instance.rotation, { y: this.camera.instance.rotation.y - Math.PI * 0.5, duration: 1 })
 
             const tl = gsap.timeline()
