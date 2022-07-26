@@ -166,6 +166,20 @@ button.see-more {
     transition: opacity 0.5s;
 } */
 
+/** See More Button *****************************/
+.button-see-more{
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border: 3px solid white;
+    border-radius: 50%;
+    opacity: 0.5;
+}
+.button-see-more:hover{
+    cursor: pointer;
+    opacity: 1;
+}
+
 /** About ***************************************/
 /* button.about {
     position: absolute;

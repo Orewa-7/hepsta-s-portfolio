@@ -15,8 +15,8 @@ export default class About{
         // this.aboutButton = document.querySelector('.about')
         this.aboutButton = document.querySelector('.button-about')
         this.aboutBloc = document.querySelector('.bloc-about')
-        this.firstArrow = document.querySelector('.arrow-first-left')
-        this.secondArrow = document.querySelector('.arrow-second-left')
+        this.firstArrow = document.querySelector('.arrows-about').children[0]
+        this.secondArrow = document.querySelector('.arrows-about').children[1]
 
         /**
         * Sounds

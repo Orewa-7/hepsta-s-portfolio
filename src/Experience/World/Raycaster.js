@@ -18,7 +18,7 @@ export default class Raycaster {
         this.heading1 = document.querySelector('h1')
         this.body = document.getElementsByTagName("body")[0]
         this.blocDescription = document.querySelector('.bloc-description')
-        this.seeMore = document.querySelector('.see-more')
+        this.seeMore = document.querySelector('.button-see-more')
         this.projectName = document.querySelector('.project-name')
         this.projectInfo = document.querySelector('.project-info')
         this.blocTitle = document.querySelector('.title')

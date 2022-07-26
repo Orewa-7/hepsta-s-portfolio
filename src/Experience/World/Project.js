@@ -17,7 +17,9 @@ export default class Project {
         this.scaleEpoptiqueUpdated = false
         this.scalePortraitsIUpdated = false
         this.scalePortraitsIIUpdated = false
+
         this.isClickedSeeMore = false
+
         /**
         * Sounds
         */
@@ -27,7 +29,10 @@ export default class Project {
         }
 
         // DOM
-        this.seeMore = document.querySelector('.see-more')
+        // this.seeMore = document.querySelector('.see-more')
+        this.seeMore = document.querySelector('.button-see-more')
+        this.firstArrow = document.querySelector('.arrows-see-more').children[0]
+        this.secondArrow = document.querySelector('.arrows-see-more').children[1]
         this.blocDescription = document.querySelector('.bloc-description')
         this.BacktoProject = document.querySelector('.button-back')
         this.scrollIndicator = document.querySelector('.description-scroll-container')
@@ -81,6 +86,10 @@ export default class Project {
                     break
             }
 
+            this.firstArrow.classList.remove('arrow-first-right')
+            this.secondArrow.classList.remove('arrow-second-right')
+            this.firstArrow.classList.add('arrow-first-left')
+            this.secondArrow.classList.add('arrow-second-left')
             this.isClickedSeeMore = !this.isClickedSeeMore
         }
         else if (this.isClickedSeeMore && !gsap.isTweening(this.camera.instance.rotation)) {
@@ -105,6 +114,12 @@ export default class Project {
                 case 'Portraits II': this.setOpacityportraitsII(false)
                     break
             }
+
+            
+            this.firstArrow.classList.remove('arrow-first-left')
+            this.secondArrow.classList.remove('arrow-second-left')
+            this.firstArrow.classList.add('arrow-first-right')
+            this.secondArrow.classList.add('arrow-second-right')
 
             this.isClickedSeeMore = !this.isClickedSeeMore
         }
