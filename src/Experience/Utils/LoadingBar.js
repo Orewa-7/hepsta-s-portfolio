@@ -8,7 +8,6 @@ export default class LoadingBar {
         this.scene = this.experience.scene
         this.resources = this.experience.resources
 
-        this.loadingBarElement = document.querySelector('.loading-bar')
         this.percentageDOM = document.querySelector('.percentage')
         this.buttonStart = document.querySelector('.button-loader')
 
@@ -27,13 +26,11 @@ export default class LoadingBar {
         this.loadingManager = new THREE.LoadingManager(
             // Loaded 
             () => {
-                gsap.to(this.buttonStart, {opacity: 1, duration:1 })
+                gsap.to(this.buttonStart, {opacity: 1, duration:2 })
                 this.buttonStart.style.display = 'block'
 
-                gsap.to(this.percentageDOM, {opacity: 0, duration:1 })
+                gsap.to(this.percentageDOM, {opacity: 0, duration:2 })
 
-                this.loadingBarElement.classList.add('ended')
-                this.loadingBarElement.style.transform = ''
 
                 this.buttonStart.onclick = () =>{
                     
@@ -74,7 +71,6 @@ export default class LoadingBar {
                       }
                 })
 
-                this.loadingBarElement.style.transform = `scaleX(${progressRatio})`
             }
         )
 
@@ -118,7 +114,6 @@ export default class LoadingBar {
     update(){
         if(!this.isCameraUpdated && this.camera){
             this.initialPosition = this.camera.instance.position.y 
-            console.log('one step')
             this.camera.instance.position.y = -5
             this.mesh.position.y = -5
             this.isCameraUpdated = true
