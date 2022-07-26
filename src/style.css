@@ -181,21 +181,6 @@ button.see-more {
 }
 
 /** About ***************************************/
-/* button.about {
-    position: absolute;
-    top: 10%;
-    left: 10%;
-    padding: 10px;
-    width: 150px;
-    text-align: center;
-    font-size: 1.5em;
-    border-radius: 10px;
-    border: 1px solid;
-    opacity: 0.5;
-    transition: opacity 0.5s;
-    transform: scale(0, 0);
-    transition: transform 0.5s;
-} */
 .button-about{
     position: absolute;
     top: 10%;
@@ -320,7 +305,7 @@ a:hover {
 }
 
 button:hover {
-    cursor: pointer;
+    /* cursor: pointer; */
     opacity: 1;
 }
 
@@ -397,4 +382,36 @@ button:hover {
     to{
         opacity: 1;
     }
+}
+
+.percentage{
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    /* font-family: Helvetica, sans-serif; */
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 3em;
+}
+.button-loader{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-decoration: none;
+    border: none;
+    font-size: 3em;
+    color: #f1f1f1;
+    background: none;
+    font-weight: 100;
+    z-index: 9999;
+    display: none;
+    opacity: 0;
+
+}
+.button-loader:hover{
+    color: aquamarine;
+    opacity: 1;
+    /* cursor: pointer; */
 }
