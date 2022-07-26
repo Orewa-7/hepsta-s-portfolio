@@ -4,7 +4,7 @@ export default [
         type: 'texture',
         path: 'Projects/Portraits/1st.jpg',
         
-        projectName: 'Portraits',
+        projectName: 'Portraits I',
         description:'Portraits 1 Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis similique, ut ea, fugit laborum, debitis sapiente accusamus facilis nobis veritatis hic? Culpa eligendi atque asperiores quisquam, pariatur eum veniam placeat!'
     },
     {
@@ -12,7 +12,7 @@ export default [
         type: 'texture',
         path: 'Projects/Portraits/2nd.jpg',
         
-        projectName: 'Portraits',
+        projectName: 'Portraits II',
         description:"Portraits 2 Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis similique, ut ea, fugit laborum, debitis sapiente accusamus facilis nobis veritatis hic? Culpa eligendi atque asperiores quisquam, pariatur eum veniam placeat!"
     },
     {

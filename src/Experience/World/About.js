@@ -58,7 +58,6 @@ export default class About{
             transparent: true,
             depthWrite: false,
             opacity: 0,
-            // side: THREE.DoubleSide
         })
         this.texture.encoding = THREE.sRGBEncoding
     }

@@ -15,7 +15,16 @@ export default class Project {
         this.scalePianoUpdated = false
         this.scaleJeffDeBrugesUpdated = false
         this.scaleEpoptiqueUpdated = false
+        this.scalePortraitsIUpdated = false
+        this.scalePortraitsIIUpdated = false
         this.isClickedSeeMore = false
+        /**
+        * Sounds
+        */
+        this.windSound = new Audio('/Sounds/wind.mp3')
+        this.playWindSound = () => {
+            this.windSound.play()
+        }
 
         // DOM
         this.seeMore = document.querySelector('.see-more')
@@ -32,12 +41,15 @@ export default class Project {
         })
 
         this.seeMore.onclick = () => {
+            this.playWindSound()
             this.clickSeeMore()
         }
 
         this.setPiano()
         this.setJeffDeBruges()
         this.setEpoptique()
+        this.setPortraitsI()
+        this.setPortraitsII()
     }
     projectsWheelHandler(event) {
         this.scrollTarget = event.wheelDelta
@@ -63,6 +75,10 @@ export default class Project {
                     break
                 case 'EPOPTIQUE': this.setOpacityepoptique(true)
                     break
+                case 'Portraits I': this.setOpacityportraitsI(true)
+                    break
+                case 'Portraits II': this.setOpacityportraitsII(true)
+                    break
             }
 
             this.isClickedSeeMore = !this.isClickedSeeMore
@@ -83,6 +99,10 @@ export default class Project {
                 case 'Jeff de Bruges': this.setOpacityJeffDeBruges(false)
                     break
                 case 'EPOPTIQUE': this.setOpacityepoptique(false)
+                    break
+                case 'Portraits I': this.setOpacityportraitsI(false)
+                    break
+                case 'Portraits II': this.setOpacityportraitsII(false)
                     break
             }
 
@@ -112,7 +132,7 @@ export default class Project {
         }
     }
     setPianoGeometry() {
-        this.pianoGeometry = new THREE.PlaneGeometry(1.5, 1.5)
+        this.pianoGeometry = new THREE.PlaneGeometry(2, 2)
     }
     setPianoMaterial() {
         this.pianoMaterials = []
@@ -128,7 +148,7 @@ export default class Project {
         this.pianoMeshs = []
         for (let i = 0; i < 16; i++) {
             const pianoMesh = new THREE.Mesh(this.pianoGeometry, this.pianoMaterials[i])
-            pianoMesh.position.x = 4
+            pianoMesh.position.x = 5
             pianoMesh.position.y = i * 2
             pianoMesh.position.z = 3
             pianoMesh.rotation.y -= Math.PI * 0.5
@@ -145,14 +165,14 @@ export default class Project {
         }
         this.scalePianoUpdated = true
     }
-    setOpacitypiano(opacity){
-        if(opacity){
-            for(let i = 0; i < 16; i++){
-                gsap.to(this.pianoMeshs[i].material, {opacity: 1, duration: 1})
+    setOpacitypiano(opacity) {
+        if (opacity) {
+            for (let i = 0; i < 16; i++) {
+                gsap.to(this.pianoMeshs[i].material, { opacity: 1, duration: 1 })
             }
-        }else {
-            for(let i = 0; i < 16; i++){
-                gsap.to(this.pianoMeshs[i].material, {opacity: 0, duration: 1})
+        } else {
+            for (let i = 0; i < 16; i++) {
+                gsap.to(this.pianoMeshs[i].material, { opacity: 0, duration: 1 })
             }
         }
 
@@ -161,7 +181,7 @@ export default class Project {
     /**
      * Jeff de Bruges
      */
-     setJeffDeBruges() {
+    setJeffDeBruges() {
         this.setJeffDeBrugesTexture()
         this.setJeffDeBrugesGeometry()
         this.setJeffDeBrugesMaterial()
@@ -180,7 +200,7 @@ export default class Project {
         }
     }
     setJeffDeBrugesGeometry() {
-        this.jeffDeBrugesGeometry = new THREE.PlaneGeometry(2, 2)
+        this.jeffDeBrugesGeometry = new THREE.PlaneGeometry(2.5, 2.5)
     }
     setJeffDeBrugesMaterial() {
         this.jeffDeBrugesMaterials = []
@@ -196,7 +216,7 @@ export default class Project {
         this.jeffDeBrugesMeshs = []
         for (let i = 0; i < 17; i++) {
             const jeffDeBrugesMesh = new THREE.Mesh(this.jeffDeBrugesGeometry, this.jeffDeBrugesMaterials[i])
-            jeffDeBrugesMesh.position.x = 4
+            jeffDeBrugesMesh.position.x = 6
             jeffDeBrugesMesh.position.y = i * 2
             jeffDeBrugesMesh.position.z = 3
             jeffDeBrugesMesh.rotation.y -= Math.PI * 0.5
@@ -213,14 +233,14 @@ export default class Project {
         }
         this.scaleUpdated = true
     }
-    setOpacityJeffDeBruges(opacity){
-        if(opacity){
-            for(let i = 0; i < 17; i++){
-                gsap.to(this.jeffDeBrugesMeshs[i].material, {opacity: 1, duration: 1})
+    setOpacityJeffDeBruges(opacity) {
+        if (opacity) {
+            for (let i = 0; i < 17; i++) {
+                gsap.to(this.jeffDeBrugesMeshs[i].material, { opacity: 1, duration: 1 })
             }
-        }else {
-            for(let i = 0; i < 17; i++){
-                gsap.to(this.jeffDeBrugesMeshs[i].material, {opacity: 0, duration: 1})
+        } else {
+            for (let i = 0; i < 17; i++) {
+                gsap.to(this.jeffDeBrugesMeshs[i].material, { opacity: 0, duration: 1 })
             }
         }
 
@@ -229,7 +249,7 @@ export default class Project {
     /**
      * Epoptique
      */
-     setEpoptique() {
+    setEpoptique() {
         this.setEpoptiqueTexture()
         this.setEpoptiqueGeometry()
         this.setEpoptiqueMaterial()
@@ -248,7 +268,7 @@ export default class Project {
         }
     }
     setEpoptiqueGeometry() {
-        this.epoptiqueGeometry = new THREE.PlaneGeometry(1.5, 1.5)
+        this.epoptiqueGeometry = new THREE.PlaneGeometry(2.5, 2.5)
     }
     setEpoptiqueMaterial() {
         this.epoptiqueMaterials = []
@@ -256,7 +276,12 @@ export default class Project {
 
         for (let i = 0; i < 15; i++) {
             this.epoptiqueTextures[i].encoding = THREE.sRGBEncoding
-            const material = new THREE.MeshBasicMaterial({ map: this.epoptiqueTextures[i], transparent: true, opacity: 0, depthWrite: false })
+            const material = new THREE.MeshBasicMaterial({
+                map: this.epoptiqueTextures[i],
+                transparent: true,
+                depthWrite: false,
+                opacity: 0,
+            })
             this.epoptiqueMaterials.push(material)
         }
     }
@@ -264,7 +289,7 @@ export default class Project {
         this.epoptiqueMeshs = []
         for (let i = 0; i < 15; i++) {
             const epoptiqueMesh = new THREE.Mesh(this.epoptiqueGeometry, this.epoptiqueMaterials[i])
-            epoptiqueMesh.position.x = 4
+            epoptiqueMesh.position.x = 6
             epoptiqueMesh.position.y = i * 2
             epoptiqueMesh.position.z = 3
             epoptiqueMesh.rotation.y -= Math.PI * 0.5
@@ -280,45 +305,195 @@ export default class Project {
             this.epoptiqueMeshs[i].scale.set(1, this.epoptiqueScaleRatio[i])
         }
         this.scaleEpoptiqueUpdated = true
-        console.log(this.epoptiqueScaleRatio)
     }
-    setOpacityepoptique(opacity){
-        if(opacity){
-            for(let i = 0; i < 15; i++){
-                gsap.to(this.epoptiqueMeshs[i].material, {opacity: 1, duration: 1})
+    setOpacityepoptique(opacity) {
+        if (opacity) {
+            for (let i = 0; i < 15; i++) {
+                gsap.to(this.epoptiqueMeshs[i].material, { opacity: 1, duration: 1 })
             }
-        }else {
-            for(let i = 0; i < 15; i++){
-                gsap.to(this.epoptiqueMeshs[i].material, {opacity: 0, duration: 1})
+        } else {
+            for (let i = 0; i < 15; i++) {
+                gsap.to(this.epoptiqueMeshs[i].material, { opacity: 0, duration: 1 })
             }
         }
 
     }
 
+    /**
+    * Portraits I
+    */
+    setPortraitsI() {
+        this.setPortraitsITexture()
+        this.setPortraitsIGeometry()
+        this.setPortraitsIMaterial()
+        this.setPortraitsIMesh()
+    }
+    setPortraitsITexture() {
+        this.portraitsIScaleRatio = []
+        this.portraitsITextures = []
+
+        this.textureLoader = new THREE.TextureLoader()
+        for (let i = 0; i < 18; i++) {
+            this.portraitsITextures[i] = new THREE.TextureLoader().load(`/Projects/Portraits/Portraits-I-${i + 1}.jpg`, (tex) => {
+                this.portraitsIScaleRatio.push(this.portraitsITextures[i].image.height / this.portraitsITextures[i].image.width)
+            })
+
+        }
+    }
+    setPortraitsIGeometry() {
+        this.portraitsIGeometry = new THREE.PlaneGeometry(2, 2)
+    }
+    setPortraitsIMaterial() {
+        this.portraitsIMaterials = []
+
+
+        for (let i = 0; i < 18; i++) {
+            this.portraitsITextures[i].encoding = THREE.sRGBEncoding
+            const material = new THREE.MeshBasicMaterial({ map: this.portraitsITextures[i], transparent: true, opacity: 0, depthWrite: false })
+            this.portraitsIMaterials.push(material)
+        }
+    }
+    setPortraitsIMesh() {
+        this.portraitsIMeshs = []
+        for (let i = 0; i < 18; i++) {
+            const portraitsIMesh = new THREE.Mesh(this.portraitsIGeometry, this.portraitsIMaterials[i])
+            portraitsIMesh.position.x = 5
+            portraitsIMesh.position.y = i * 2
+            portraitsIMesh.position.z = 3
+            portraitsIMesh.rotation.y -= Math.PI * 0.5
+
+
+            this.scene.add(portraitsIMesh)
+
+            this.portraitsIMeshs.push(portraitsIMesh)
+        }
+    }
+    updatePortraitsIScale() {
+        for (let i = 0; i < 18; i++) {
+            this.portraitsIMeshs[i].scale.set(1, this.portraitsIScaleRatio[i])
+        }
+        this.scalePortraitsIUpdated = true
+    }
+    setOpacityportraitsI(opacity) {
+        if (opacity) {
+            for (let i = 0; i < 18; i++) {
+                gsap.to(this.portraitsIMeshs[i].material, { opacity: 1, duration: 1 })
+            }
+        } else {
+            for (let i = 0; i < 18; i++) {
+                gsap.to(this.portraitsIMeshs[i].material, { opacity: 0, duration: 1 })
+            }
+        }
+
+    }
+
+    /**
+    * Portraits II
+    */
+     setPortraitsII() {
+        this.setPortraitsIITexture()
+        this.setPortraitsIIGeometry()
+        this.setPortraitsIIMaterial()
+        this.setPortraitsIIMesh()
+    }
+    setPortraitsIITexture() {
+        this.portraitsIIScaleRatio = []
+        this.portraitsIITextures = []
+
+        this.textureLoader = new THREE.TextureLoader()
+        for (let i = 0; i < 8; i++) {                                                         
+            this.portraitsIITextures[i] = new THREE.TextureLoader().load(`/Projects/Portraits/Portraits-II-${i + 1}.jpg`, (tex) => {
+                this.portraitsIIScaleRatio.push(this.portraitsIITextures[i].image.height / this.portraitsIITextures[i].image.width)
+            })
+        }
+        
+    }
+    setPortraitsIIGeometry() {
+        this.portraitsIIGeometry = new THREE.PlaneGeometry(2, 2)
+    }
+    setPortraitsIIMaterial() {
+        this.portraitsIIMaterials = []
+
+
+        for (let i = 0; i < 8; i++) {
+            this.portraitsIITextures[i].encoding = THREE.sRGBEncoding
+            const material = new THREE.MeshBasicMaterial({ map: this.portraitsIITextures[i], transparent: true, opacity: 0, depthWrite: false })
+            this.portraitsIIMaterials.push(material)
+        }
+    }
+    setPortraitsIIMesh() {
+        this.portraitsIIMeshs = []
+        for (let i = 0; i < 8; i++) {
+            const portraitsIIMesh = new THREE.Mesh(this.portraitsIIGeometry, this.portraitsIIMaterials[i])
+            portraitsIIMesh.position.x = 5
+            portraitsIIMesh.position.y = i * 2
+            portraitsIIMesh.position.z = 3
+            portraitsIIMesh.rotation.y -= Math.PI * 0.5
+
+
+            this.scene.add(portraitsIIMesh)
+
+            this.portraitsIIMeshs.push(portraitsIIMesh)
+        }
+    }
+    updatePortraitsIIScale() {
+        for (let i = 0; i < 8; i++) {
+            this.portraitsIIMeshs[i].scale.set(1, this.portraitsIIScaleRatio[i])
+        }
+        this.scalePortraitsIIUpdated = true
+    }
+    setOpacityportraitsII(opacity) {
+        if (opacity) {
+            for (let i = 0; i < 8; i++) {
+                gsap.to(this.portraitsIIMeshs[i].material, { opacity: 1, duration: 1 })
+            }
+        } else {
+            for (let i = 0; i < 8; i++) {
+                gsap.to(this.portraitsIIMeshs[i].material, { opacity: 0, duration: 1 })
+            }
+        }
+
+    }
+
+    /******************************************** */
 
     /**
      * Updating things
      */
     updateMeshs() {
-        if (this.pianoMeshs /*&& this.pianoMeshs[0].material.opacity === 1*/)  {
-            let margin = 3
+        if (this.pianoMeshs /*&& this.pianoMeshs[0].material.opacity === 1*/) {
+            let margin = 3.5
             let wholeWidth = margin * this.pianoMeshs.length
             for (let i = 0; i < 16; i++) {
                 this.pianoMeshs[i].position.y = (margin * i + this.currentScroll + 42069 * wholeWidth) % wholeWidth - 5 * margin
             }
         }
         if (this.jeffDeBrugesMeshs /*&& this.pianoMeshs[0].material.opacity === 1*/) {
-            let margin = 3
+            let margin = 4
             let wholeWidth = margin * this.jeffDeBrugesMeshs.length
             for (let i = 0; i < 17; i++) {
                 this.jeffDeBrugesMeshs[i].position.y = (margin * i + this.currentScroll + 42069 * wholeWidth) % wholeWidth - 5 * margin
             }
         }
-        if (this.epoptiqueMeshs /*&& this.epoptiqueMeshs[0].material.opacity === 1*/)  {
-            let margin = 3
+        if (this.epoptiqueMeshs /*&& this.epoptiqueMeshs[0].material.opacity === 1*/) {
+            let margin = 4
             let wholeWidth = margin * this.epoptiqueMeshs.length
             for (let i = 0; i < 15; i++) {
                 this.epoptiqueMeshs[i].position.y = (margin * i + this.currentScroll + 42069 * wholeWidth) % wholeWidth - 5 * margin
+            }
+        }
+        if (this.portraitsIMeshs /*&& this.portraitsIMeshs[0].material.opacity === 1*/) {
+            let margin = 4
+            let wholeWidth = margin * this.portraitsIMeshs.length
+            for (let i = 0; i < 18; i++) {
+                this.portraitsIMeshs[i].position.y = (margin * i + this.currentScroll + 42069 * wholeWidth) % wholeWidth - 5 * margin
+            }
+        }
+        if (this.portraitsIIMeshs /*&& this.portraitsIMeshs[0].material.opacity === 1*/) {
+            let margin = 4
+            let wholeWidth = margin * this.portraitsIIMeshs.length
+            for (let i = 0; i < 8; i++) {
+                this.portraitsIIMeshs[i].position.y = (margin * i + this.currentScroll + 42069 * wholeWidth) % wholeWidth - 5 * margin
             }
         }
     }
@@ -332,6 +507,12 @@ export default class Project {
         }
         if (!this.scaleEpoptiqueUpdated && this.epoptiqueScaleRatio.length == 15 && this.epoptiqueMeshs.length == 15) {
             this.updateEpoptiqueScale()
+        }
+        if (!this.scalePortraitsIUpdated && this.portraitsIScaleRatio.length == 18 && this.portraitsIMeshs.length == 18) {
+            this.updatePortraitsIScale()
+        }
+        if (!this.scalePortraitsIIUpdated && this.portraitsIIScaleRatio.length == 8 && this.portraitsIIMeshs.length == 8) {
+            this.updatePortraitsIIScale()
         }
         this.updateMeshs()
         this.scroll += (this.scrollTarget - this.scroll) * 0.1
