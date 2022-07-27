@@ -285,11 +285,6 @@ a:hover {
     opacity: 1;
 }
 
-button:hover {
-    /* cursor: pointer; */
-    opacity: 1;
-}
-
 .invisible {
     display: none;
 }
@@ -371,7 +366,6 @@ button:hover {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 9999;
-    /* font-family: Helvetica, sans-serif; */
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 3em;
 }
@@ -389,10 +383,7 @@ button:hover {
     z-index: 9999;
     display: none;
     opacity: 0;
-
 }
 .button-loader:hover{
     color: aquamarine;
-    opacity: 1;
-    /* cursor: pointer; */
 }

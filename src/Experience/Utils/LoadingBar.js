@@ -23,11 +23,13 @@ export default class LoadingBar {
         this.sceneReady = false
         this.isCameraUpdated = false
 
+        this.progressPercent = { value: 0 }
+
         this.loadingManager = new THREE.LoadingManager(
             // Loaded 
             () => {
                 gsap.to(this.buttonStart, {opacity: 1, duration:2, delay: 1 })
-                this.buttonStart.style.display = 'block'
+                gsap.to(this.buttonStart, {display: 'block', delay: 1})
 
                 gsap.to(this.percentageDOM, {opacity: 0, duration:2, delay: 1 })
 
@@ -58,9 +60,9 @@ export default class LoadingBar {
             // Progress
             (itemURL, itemsLoaded, itemsTotal) => {
                 const progressRatio = itemsLoaded / itemsTotal
-                const progressPercent = { value: 0 }
+                
 
-                gsap.to(progressPercent, {
+                gsap.to(this.progressPercent, {
                     value: progressRatio * 100,
                     duration: 2, 
                     roundProps: {
@@ -68,8 +70,13 @@ export default class LoadingBar {
                     },
                     ease: 'power4.out',
                     onUpdate: () => {
-                        this.percentageDOM.innerHTML = `${progressPercent.value}%`
-                      }
+                        this.percentageDOM.innerHTML = `${this.progressPercent.value}%`
+                        
+                      },
+                    // onComplete: () => {
+                    //     progressPercent.value = progressRatio * 100
+                    //     console.log(progressPercent.value)
+                    // }
                 })
 
             }

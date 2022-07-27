@@ -145,7 +145,7 @@ export default class Project {
         this.textureLoader = new THREE.TextureLoader()
         for (let i = 0; i < 16; i++) {
             this.pianoTextures[i] = new THREE.TextureLoader().load(`/Projects/Le-Piano/PIANO-${i + 1}.jpg`, (tex) => {
-                this.pianoScaleRatio.push(this.pianoTextures[i].image.height / this.pianoTextures[i].image.width)
+                this.pianoScaleRatio[i] = (this.pianoTextures[i].image.height / this.pianoTextures[i].image.width).toFixed(2)
             })
 
         }
@@ -213,7 +213,7 @@ export default class Project {
         this.textureLoader = new THREE.TextureLoader()
         for (let i = 0; i < 17; i++) {
             this.jeffDeBrugesTextures[i] = new THREE.TextureLoader().load(`/Projects/Jeff-De-Bruges/Jeff-De-Bruges-${i + 1}.jpg`, (tex) => {
-                this.jeffDeBrugesScaleRatio.push(this.jeffDeBrugesTextures[i].image.height / this.jeffDeBrugesTextures[i].image.width)
+                this.jeffDeBrugesScaleRatio[i] = (this.jeffDeBrugesTextures[i].image.height / this.jeffDeBrugesTextures[i].image.width).toFixed(2)
             })
 
         }
@@ -249,8 +249,9 @@ export default class Project {
     updateJeffDeBrugesScale() {
         for (let i = 0; i < 17; i++) {
             this.jeffDeBrugesMeshs[i].scale.set(1, this.jeffDeBrugesScaleRatio[i])
+            console.log(i, this.jeffDeBrugesScaleRatio[i])
         }
-        this.scaleUpdated = true
+        this.scaleJeffDeBrugesUpdated = true
     }
     setOpacityJeffDeBruges(opacity) {
         if (opacity) {
@@ -281,7 +282,7 @@ export default class Project {
         this.textureLoader = new THREE.TextureLoader()
         for (let i = 0; i < 15; i++) {
             this.epoptiqueTextures[i] = new THREE.TextureLoader().load(`/Projects/EPOPTIQUE/EPOPTIQUE-${i + 1}.jpg`, (tex) => {
-                this.epoptiqueScaleRatio.push(this.epoptiqueTextures[i].image.height / this.epoptiqueTextures[i].image.width)
+                this.epoptiqueScaleRatio[i] = (this.epoptiqueTextures[i].image.height / this.epoptiqueTextures[i].image.width).toFixed(2)
             })
 
         }
@@ -354,7 +355,7 @@ export default class Project {
         this.textureLoader = new THREE.TextureLoader()
         for (let i = 0; i < 18; i++) {
             this.portraitsITextures[i] = new THREE.TextureLoader().load(`/Projects/Portraits/Portraits-I-${i + 1}.jpg`, (tex) => {
-                this.portraitsIScaleRatio.push(this.portraitsITextures[i].image.height / this.portraitsITextures[i].image.width)
+                this.portraitsIScaleRatio[i] = (this.portraitsITextures[i].image.height / this.portraitsITextures[i].image.width).toFixed(2)
             })
 
         }
@@ -422,7 +423,7 @@ export default class Project {
         this.textureLoader = new THREE.TextureLoader()
         for (let i = 0; i < 8; i++) {                                                         
             this.portraitsIITextures[i] = new THREE.TextureLoader().load(`/Projects/Portraits/Portraits-II-${i + 1}.jpg`, (tex) => {
-                this.portraitsIIScaleRatio.push(this.portraitsIITextures[i].image.height / this.portraitsIITextures[i].image.width)
+                this.portraitsIIScaleRatio[i] = (this.portraitsIITextures[i].image.height / this.portraitsIITextures[i].image.width).toFixed(2)
             })
         }
         
@@ -492,6 +493,7 @@ export default class Project {
             let wholeWidth = margin * this.jeffDeBrugesMeshs.length
             for (let i = 0; i < 17; i++) {
                 this.jeffDeBrugesMeshs[i].position.y = (margin * i + this.currentScroll + 42069 * wholeWidth) % wholeWidth - 5 * margin
+                // console.log(i, this.jeffDeBrugesMeshs[i].geometry.parameters.height * this.jeffDeBrugesScaleRatio[i])
             }
         }
         if (this.epoptiqueMeshs /*&& this.epoptiqueMeshs[0].material.opacity === 1*/) {
@@ -523,6 +525,10 @@ export default class Project {
         }
         if (!this.scaleJeffDeBrugesUpdated && this.jeffDeBrugesScaleRatio.length == 17 && this.jeffDeBrugesMeshs.length == 17) {
             this.updateJeffDeBrugesScale()
+            const hour = new Date(Date.now()).getHours()
+            const minutes = new Date(Date.now()).getMinutes()
+            const sec = new Date(Date.now()).getSeconds()
+            console.log(hour, minutes, sec)
         }
         if (!this.scaleEpoptiqueUpdated && this.epoptiqueScaleRatio.length == 15 && this.epoptiqueMeshs.length == 15) {
             this.updateEpoptiqueScale()
