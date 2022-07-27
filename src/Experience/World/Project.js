@@ -249,7 +249,6 @@ export default class Project {
     updateJeffDeBrugesScale() {
         for (let i = 0; i < 17; i++) {
             this.jeffDeBrugesMeshs[i].scale.set(1, this.jeffDeBrugesScaleRatio[i])
-            console.log(i, this.jeffDeBrugesScaleRatio[i])
         }
         this.scaleJeffDeBrugesUpdated = true
     }
@@ -493,7 +492,6 @@ export default class Project {
             let wholeWidth = margin * this.jeffDeBrugesMeshs.length
             for (let i = 0; i < 17; i++) {
                 this.jeffDeBrugesMeshs[i].position.y = (margin * i + this.currentScroll + 42069 * wholeWidth) % wholeWidth - 5 * margin
-                // console.log(i, this.jeffDeBrugesMeshs[i].geometry.parameters.height * this.jeffDeBrugesScaleRatio[i])
             }
         }
         if (this.epoptiqueMeshs /*&& this.epoptiqueMeshs[0].material.opacity === 1*/) {
@@ -528,7 +526,6 @@ export default class Project {
             const hour = new Date(Date.now()).getHours()
             const minutes = new Date(Date.now()).getMinutes()
             const sec = new Date(Date.now()).getSeconds()
-            console.log(hour, minutes, sec)
         }
         if (!this.scaleEpoptiqueUpdated && this.epoptiqueScaleRatio.length == 15 && this.epoptiqueMeshs.length == 15) {
             this.updateEpoptiqueScale()

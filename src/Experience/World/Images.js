@@ -55,7 +55,7 @@ export default class Images {
         this.scrollTarget = 0
         this.currentScroll = 0
         window.addEventListener('wheel', event => {
-            if (!this.scrollDisapear) {
+            if (!this.scrollDisapear && this.experience.loadingBar.sceneReady) {
                 gsap.to(this.scrollIndicator, { opacity: 0, duration: 1 })
                 gsap.to(this.scrollIndicator, { scaleX: 0, scaleY: 0, }).delay(1)
                 this.scrollDisapear = true
@@ -135,7 +135,7 @@ export default class Images {
         let ancientDirection = 0
         window.addEventListener('mousedown', event => {
 
-            if (!this.scrollDisapear) {
+            if (!this.scrollDisapear && this.experience.loadingBar.sceneReady ) {
                 const tl = gsap.timeline()
                 tl.to(this.scrollIndicator, { opacity: 0, duration: 1 })
                     .to(this.scrollIndicator, { scaleX: 0, scaleY: 0 })

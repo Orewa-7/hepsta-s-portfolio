@@ -51,7 +51,7 @@ export default class LoadingBar {
     
                     window.setTimeout(() => {
                         this.sceneReady = true
-                    }, 1500)
+                    }, 1000)
 
                 }
                 
