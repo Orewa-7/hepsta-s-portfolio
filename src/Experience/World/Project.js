@@ -523,9 +523,6 @@ export default class Project {
         }
         if (!this.scaleJeffDeBrugesUpdated && this.jeffDeBrugesScaleRatio.length == 17 && this.jeffDeBrugesMeshs.length == 17) {
             this.updateJeffDeBrugesScale()
-            const hour = new Date(Date.now()).getHours()
-            const minutes = new Date(Date.now()).getMinutes()
-            const sec = new Date(Date.now()).getSeconds()
         }
         if (!this.scaleEpoptiqueUpdated && this.epoptiqueScaleRatio.length == 15 && this.epoptiqueMeshs.length == 15) {
             this.updateEpoptiqueScale()
