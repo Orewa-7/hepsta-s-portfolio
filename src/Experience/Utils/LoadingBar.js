@@ -26,10 +26,10 @@ export default class LoadingBar {
         this.loadingManager = new THREE.LoadingManager(
             // Loaded 
             () => {
-                gsap.to(this.buttonStart, {opacity: 1, duration:2 })
+                gsap.to(this.buttonStart, {opacity: 1, duration:2, delay: 1 })
                 this.buttonStart.style.display = 'block'
 
-                gsap.to(this.percentageDOM, {opacity: 0, duration:2 })
+                gsap.to(this.percentageDOM, {opacity: 0, duration:2, delay: 1 })
 
 
                 this.buttonStart.onclick = () =>{
@@ -62,7 +62,8 @@ export default class LoadingBar {
 
                 gsap.to(progressPercent, {
                     value: progressRatio * 100,
-                    duration: 1, roundProps: {
+                    duration: 2, 
+                    roundProps: {
                         value: 1
                     },
                     ease: 'power4.out',
