@@ -10,15 +10,6 @@ export default class LoadingBar {
 
         this.percentageDOM = document.querySelector('.percentage')
         this.buttonStart = document.querySelector('.button-loader')
-
-        /**
-        * Sounds
-        */
-         this.spaceSound = new Audio('/Sounds/space-sound.mp3')
-        this.playSpaceSound = () => {
-            this.spaceSound.play()
-            this.spaceSound.loop = true
-         }
         
         this.sceneReady = false
         this.isCameraUpdated = false
@@ -36,7 +27,6 @@ export default class LoadingBar {
 
                 this.buttonStart.onclick = () =>{
                     
-                    this.playSpaceSound()
 
                     gsap.to(this.buttonStart, {opacity: 0, duration:0.5 })
 

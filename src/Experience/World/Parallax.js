@@ -49,8 +49,10 @@ export default class Parallax {
         this.parallaxX = this.cursor.x * 0.5
         this.parallaxY = - this.cursor.y * 0.5
 
-        this.cameraGroup.position.x += (this.parallaxX - this.cameraGroup.position.x) * 0.1 * deltaTime * 5
-        this.cameraGroup.position.y += (this.parallaxY - this.cameraGroup.position.y) * 0.1 * deltaTime * 5
+        // this.cameraGroup.position.x += (this.parallaxX - this.cameraGroup.position.x) * 0.1 * deltaTime * 5
+        // this.cameraGroup.position.y += (this.parallaxY - this.cameraGroup.position.y) * 0.1 * deltaTime * 5
+        this.cameraGroup.position.x += (this.parallaxX - this.cameraGroup.position.x) * 0.1
+        this.cameraGroup.position.y += (this.parallaxY - this.cameraGroup.position.y) * 0.1
 
     }
 

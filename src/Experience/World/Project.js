@@ -20,6 +20,9 @@ export default class Project {
 
         this.isClickedSeeMore = false
 
+        this.tweening = false
+        this.addons = 0
+
         /**
         * Sounds
         */
@@ -508,11 +511,36 @@ export default class Project {
                 this.portraitsIMeshs[i].position.y = (margin * i + this.currentScroll + 42069 * wholeWidth) % wholeWidth - 5 * margin
             }
         }
-        if (this.portraitsIIMeshs /*&& this.portraitsIMeshs[0].material.opacity === 1*/) {
-            let margin = 4
+        if (this.portraitsIIMeshs /*&& this.portraitsIMeshs[0].material.opacity != 0*/) {
+            let margin = 4.5
+            let snap = gsap.utils.snap(4.5)
             let wholeWidth = margin * this.portraitsIIMeshs.length
             for (let i = 0; i < 8; i++) {
-                this.portraitsIIMeshs[i].position.y = (margin * i + this.currentScroll + 42069 * wholeWidth) % wholeWidth - 5 * margin
+                let mouvement = (margin * i + this.currentScroll + 42069 * wholeWidth) % wholeWidth - 5 * margin + this.addons
+                console.log(Math.sign(this.scroll), this.addons)
+
+                if( -0.01 < this.scroll && this.scroll < 0.01 && !gsap.isTweening(this.portraitsIIMeshs[i].position)){
+                    gsap.to(this.portraitsIIMeshs[i].position, {y: snap(mouvement)})
+                    
+                    this.tweening = true
+                } 
+                else if (!gsap.isTweening(this.portraitsIIMeshs[i].position)) {
+                    if(this.tweening){
+                        this.addons += Math.sign(this.scroll) * (mouvement - snap(mouvement))
+                        this.tweening = false
+                console.log(this.addons)
+
+                    } 
+                this.portraitsIIMeshs[i].position.y = mouvement
+                }
+                /**
+                 * Le promble que j'ai c'est que gsap fonctionne tout le temps au début, il force la position pendant quelque milliseconde
+                 * L'autre probleme c'est qu'on garde la position du else if si on veut re scroll
+                 */
+
+                //  this.portraitsIIMeshs[i].position.y = (margin * i + this.currentScroll + 42069 * wholeWidth) % wholeWidth - 5 * margin
+
+                           
             }
         }
     }
