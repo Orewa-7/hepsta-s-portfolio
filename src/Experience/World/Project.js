@@ -564,11 +564,12 @@ export default class Project {
                 if (-0.001 < this.scrollTarget - this.scroll && this.scrollTarget - this.scroll < 0.001 && !gsap.isTweening(this.portraitsIMeshs[i].position)) {
                     gsap.to(this.portraitsIMeshs[i].position, { y: snap(mouvement), duration: 0.5 })
                     this.tweening = true
+                        this.addons += (snap(mouvement) - mouvement)
+
                 }
                 else if (!gsap.isTweening(this.portraitsIMeshs[i].position)) {
                     if (this.tweening) {
                         // this.addons += Math.sign(this.scroll) * (mouvement - snap(mouvement))
-                        this.addons += (snap(mouvement) - mouvement)
                         this.tweening = false
                     }
                     this.portraitsIMeshs[i].position.y = mouvement
