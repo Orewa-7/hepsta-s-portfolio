@@ -10,6 +10,8 @@ export default class Parallax {
         this.camera = this.experience.camera
         this.debug = this.experience.debug
 
+        this.clamp = (num, min, max) => Math.min(Math.max(num, min), max)
+
         // Setup
         this.setMouse()
         this.setGroup()
@@ -51,8 +53,8 @@ export default class Parallax {
 
         // this.cameraGroup.position.x += (this.parallaxX - this.cameraGroup.position.x) * 0.1 * deltaTime * 5
         // this.cameraGroup.position.y += (this.parallaxY - this.cameraGroup.position.y) * 0.1 * deltaTime * 5
-        this.cameraGroup.position.x += (this.parallaxX - this.cameraGroup.position.x) * 0.1
-        this.cameraGroup.position.y += (this.parallaxY - this.cameraGroup.position.y) * 0.1
+        this.cameraGroup.position.x += this.clamp((this.parallaxX - this.cameraGroup.position.x) * 0.1 * deltaTime * 5, -0.25, 0.25) 
+        this.cameraGroup.position.y += this.clamp((this.parallaxY - this.cameraGroup.position.y) * 0.1 * deltaTime * 5, -0.25, 0.25)
 
     }
 

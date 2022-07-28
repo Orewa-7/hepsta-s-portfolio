@@ -53,6 +53,8 @@ export default class Project {
             this.clickSeeMore()
         }
 
+        this.clamp = (num, min, max) => Math.min(Math.max(num, min), max)
+
         this.setPiano()
         this.setJeffDeBruges()
         this.setEpoptique()
@@ -60,13 +62,14 @@ export default class Project {
         this.setPortraitsII()
     }
     projectsWheelHandler(event) {
-        this.scrollTarget = -event.wheelDelta
+        // this.scrollTarget = - Math.sign(event.wheelDelta) * 25
+        this.scrollTarget = - this.clamp(event.wheelDelta, -25, 25)
     }
 
     clickSeeMore() {
 
         if (!this.isClickedSeeMore && !gsap.isTweening(this.camera.instance.rotation)) {
-            window.setTimeout(()=>{
+            window.setTimeout(() => {
                 this.scrollTarget = 50
             }, 1000)
 
@@ -122,7 +125,7 @@ export default class Project {
                     break
             }
 
-            
+
             this.firstArrow.classList.remove('arrow-first-left')
             this.secondArrow.classList.remove('arrow-second-left')
             this.firstArrow.classList.add('arrow-first-right')
@@ -412,7 +415,7 @@ export default class Project {
     /**
     * Portraits II
     */
-     setPortraitsII() {
+    setPortraitsII() {
         this.setPortraitsIITexture()
         this.setPortraitsIIGeometry()
         this.setPortraitsIIMaterial()
@@ -423,12 +426,12 @@ export default class Project {
         this.portraitsIITextures = []
 
         this.textureLoader = new THREE.TextureLoader()
-        for (let i = 0; i < 8; i++) {                                                         
+        for (let i = 0; i < 8; i++) {
             this.portraitsIITextures[i] = new THREE.TextureLoader().load(`/Projects/Portraits/Portraits-II-${i + 1}.jpg`, (tex) => {
                 this.portraitsIIScaleRatio[i] = (this.portraitsIITextures[i].image.height / this.portraitsIITextures[i].image.width).toFixed(2)
             })
         }
-        
+
     }
     setPortraitsIIGeometry() {
         this.portraitsIIGeometry = new THREE.PlaneGeometry(2, 2)
@@ -484,31 +487,93 @@ export default class Project {
      */
     updateMeshs() {
         if (this.pianoMeshs /*&& this.pianoMeshs[0].material.opacity === 1*/) {
-            let margin = 3.5
+            let margin = 4.5
+            let snap = gsap.utils.snap(4.5)
             let wholeWidth = margin * this.pianoMeshs.length
             for (let i = 0; i < 16; i++) {
-                this.pianoMeshs[i].position.y = (margin * i + this.currentScroll + 42069 * wholeWidth) % wholeWidth - 5 * margin
+                let mouvement = (margin * i + this.currentScroll + 42069 * wholeWidth) % wholeWidth - 1 * margin + this.addons
+                
+                if (-0.001 < this.scrollTarget - this.scroll && this.scrollTarget - this.scroll < 0.001 && !gsap.isTweening(this.pianoMeshs[i].position)) {
+                    gsap.to(this.pianoMeshs[i].position, { y: snap(mouvement), duration: 0.5 })
+                    this.tweening = true
+                }
+                else if (!gsap.isTweening(this.pianoMeshs[i].position)) {
+                    if (this.tweening) {
+                        // this.addons += Math.sign(this.scroll) * (mouvement - snap(mouvement))
+                        this.addons += (snap(mouvement) - mouvement)
+                        this.tweening = false
+                    }
+                    this.pianoMeshs[i].position.y = mouvement
+                }
+                // this.pianoMeshs[i].position.y = (margin * i + this.currentScroll + 42069 * wholeWidth) % wholeWidth - 5 * margin
             }
         }
         if (this.jeffDeBrugesMeshs /*&& this.pianoMeshs[0].material.opacity === 1*/) {
-            let margin = 4
+            let margin = 4.5
+            let snap = gsap.utils.snap(4.5)
             let wholeWidth = margin * this.jeffDeBrugesMeshs.length
             for (let i = 0; i < 17; i++) {
-                this.jeffDeBrugesMeshs[i].position.y = (margin * i + this.currentScroll + 42069 * wholeWidth) % wholeWidth - 5 * margin
+                let mouvement = (margin * i + this.currentScroll + 42069 * wholeWidth) % wholeWidth - 1 * margin + this.addons
+                
+                if (-0.001 < this.scrollTarget - this.scroll && this.scrollTarget - this.scroll < 0.001 && !gsap.isTweening(this.jeffDeBrugesMeshs[i].position)) {
+                    gsap.to(this.jeffDeBrugesMeshs[i].position, { y: snap(mouvement), duration: 0.5 })
+                    this.tweening = true
+                }
+                else if (!gsap.isTweening(this.jeffDeBrugesMeshs[i].position)) {
+                    if (this.tweening) {
+                        // this.addons += Math.sign(this.scroll) * (mouvement - snap(mouvement))
+                        this.addons += (snap(mouvement) - mouvement)
+                        this.tweening = false
+                    }
+                    this.jeffDeBrugesMeshs[i].position.y = mouvement
+                }
+
+                // this.jeffDeBrugesMeshs[i].position.y = (margin * i + this.currentScroll + 42069 * wholeWidth) % wholeWidth - 5 * margin
             }
         }
         if (this.epoptiqueMeshs /*&& this.epoptiqueMeshs[0].material.opacity === 1*/) {
-            let margin = 4
+            let margin = 4.5
+            let snap = gsap.utils.snap(4.5)
             let wholeWidth = margin * this.epoptiqueMeshs.length
             for (let i = 0; i < 15; i++) {
-                this.epoptiqueMeshs[i].position.y = (margin * i + this.currentScroll + 42069 * wholeWidth) % wholeWidth - 5 * margin
+                let mouvement = (margin * i + this.currentScroll + 42069 * wholeWidth) % wholeWidth - 1 * margin + this.addons
+                
+                if (-0.001 < this.scrollTarget - this.scroll && this.scrollTarget - this.scroll < 0.001 && !gsap.isTweening(this.epoptiqueMeshs[i].position)) {
+                    gsap.to(this.epoptiqueMeshs[i].position, { y: snap(mouvement), duration: 0.5 })
+                    this.tweening = true
+                }
+                else if (!gsap.isTweening(this.epoptiqueMeshs[i].position)) {
+                    if (this.tweening) {
+                        // this.addons += Math.sign(this.scroll) * (mouvement - snap(mouvement))
+                        this.addons += (snap(mouvement) - mouvement)
+                        this.tweening = false
+                    }
+                    this.epoptiqueMeshs[i].position.y = mouvement
+                }
+
+                // this.epoptiqueMeshs[i].position.y = (margin * i + this.currentScroll + 42069 * wholeWidth) % wholeWidth - 5 * margin
             }
         }
         if (this.portraitsIMeshs /*&& this.portraitsIMeshs[0].material.opacity === 1*/) {
-            let margin = 4
+            let margin = 4.5
+            let snap = gsap.utils.snap(4.5)
             let wholeWidth = margin * this.portraitsIMeshs.length
             for (let i = 0; i < 18; i++) {
-                this.portraitsIMeshs[i].position.y = (margin * i + this.currentScroll + 42069 * wholeWidth) % wholeWidth - 5 * margin
+                let mouvement = (margin * i + this.currentScroll + 42069 * wholeWidth) % wholeWidth - 1 * margin + this.addons
+
+                if (-0.001 < this.scrollTarget - this.scroll && this.scrollTarget - this.scroll < 0.001 && !gsap.isTweening(this.portraitsIMeshs[i].position)) {
+                    gsap.to(this.portraitsIMeshs[i].position, { y: snap(mouvement), duration: 0.5 })
+                    this.tweening = true
+                }
+                else if (!gsap.isTweening(this.portraitsIMeshs[i].position)) {
+                    if (this.tweening) {
+                        // this.addons += Math.sign(this.scroll) * (mouvement - snap(mouvement))
+                        this.addons += (snap(mouvement) - mouvement)
+                        this.tweening = false
+                    }
+                    this.portraitsIMeshs[i].position.y = mouvement
+                }
+                // this.portraitsIMeshs[i].position.y = (margin * i + this.currentScroll + 42069 * wholeWidth) % wholeWidth - 5 * margin
             }
         }
         if (this.portraitsIIMeshs /*&& this.portraitsIMeshs[0].material.opacity != 0*/) {
@@ -516,23 +581,23 @@ export default class Project {
             let snap = gsap.utils.snap(4.5)
             let wholeWidth = margin * this.portraitsIIMeshs.length
             for (let i = 0; i < 8; i++) {
-                let mouvement = (margin * i + this.currentScroll + 42069 * wholeWidth) % wholeWidth - 5 * margin + this.addons
-                console.log(Math.sign(this.scroll), this.addons)
+                let mouvement = (margin * i + this.currentScroll + 42069 * wholeWidth) % wholeWidth - 1 * margin + this.addons
 
-                if( -0.01 < this.scroll && this.scroll < 0.01 && !gsap.isTweening(this.portraitsIIMeshs[i].position)){
-                    gsap.to(this.portraitsIIMeshs[i].position, {y: snap(mouvement)})
-                    
-                    this.tweening = true
-                } 
-                else if (!gsap.isTweening(this.portraitsIIMeshs[i].position)) {
-                    if(this.tweening){
-                        this.addons += Math.sign(this.scroll) * (mouvement - snap(mouvement))
-                        this.tweening = false
-                console.log(this.addons)
+                // if( -0.01 < this.scroll && this.scroll < 0.01 && !gsap.isTweening(this.portraitsIIMeshs[i].position)){
+                //     gsap.to(this.portraitsIIMeshs[i].position, {y: snap(mouvement)})
 
-                    } 
-                this.portraitsIIMeshs[i].position.y = mouvement
-                }
+                //     this.tweening = true
+                // } 
+                // else if (!gsap.isTweening(this.portraitsIIMeshs[i].position)) {
+                //     if(this.tweening){
+                //         this.addons += Math.sign(this.scroll) * (mouvement - snap(mouvement))
+                //         this.tweening = false
+                // console.log(this.addons)
+
+                //     } 
+                // this.portraitsIIMeshs[i].position.y = mouvement
+                // }
+
                 /**
                  * Le promble que j'ai c'est que gsap fonctionne tout le temps au début, il force la position pendant quelque milliseconde
                  * L'autre probleme c'est qu'on garde la position du else if si on veut re scroll
@@ -540,7 +605,21 @@ export default class Project {
 
                 //  this.portraitsIIMeshs[i].position.y = (margin * i + this.currentScroll + 42069 * wholeWidth) % wholeWidth - 5 * margin
 
-                           
+                /**
+                 * Autre 
+                 */
+                if (-0.001 < this.scrollTarget - this.scroll && this.scrollTarget - this.scroll < 0.001 && !gsap.isTweening(this.portraitsIIMeshs[i].position)) {
+                    gsap.to(this.portraitsIIMeshs[i].position, { y: snap(mouvement), duration: 0.5 })
+                    this.tweening = true
+                }
+                else if (!gsap.isTweening(this.portraitsIIMeshs[i].position)) {
+                    if (this.tweening) {
+                        // this.addons += Math.sign(this.scroll) * (mouvement - snap(mouvement))
+                        this.addons += (snap(mouvement) - mouvement)
+                        this.tweening = false
+                    }
+                    this.portraitsIIMeshs[i].position.y = mouvement
+                }
             }
         }
     }
