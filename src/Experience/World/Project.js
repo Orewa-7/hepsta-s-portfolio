@@ -10,6 +10,7 @@ export default class Project {
         this.scene = this.experience.scene
         this.camera = this.experience.camera
         this.debug = this.experience.debug
+        this.loadingManager = this.experience.loadingBar.loadingManager
         this.currentObjectSelected = null
 
         this.scalePianoUpdated = false
@@ -148,7 +149,6 @@ export default class Project {
         this.pianoScaleRatio = []
         this.pianoTextures = []
 
-        this.textureLoader = new THREE.TextureLoader()
         for (let i = 0; i < 16; i++) {
             this.pianoTextures[i] = new THREE.TextureLoader().load(`/Projects/Le-Piano/PIANO-${i + 1}.jpg`, (tex) => {
                 this.pianoScaleRatio[i] = (this.pianoTextures[i].image.height / this.pianoTextures[i].image.width).toFixed(2)
@@ -188,6 +188,7 @@ export default class Project {
         for (let i = 0; i < 16; i++) {
             this.pianoMeshs[i].scale.set(1, this.pianoScaleRatio[i])
         }
+        console.log(this.pianoScaleRatio.includes(undefined))
         this.scalePianoUpdated = true
     }
     setOpacitypiano(opacity) {
@@ -216,7 +217,7 @@ export default class Project {
         this.jeffDeBrugesScaleRatio = []
         this.jeffDeBrugesTextures = []
 
-        this.textureLoader = new THREE.TextureLoader()
+        
         for (let i = 0; i < 17; i++) {
             this.jeffDeBrugesTextures[i] = new THREE.TextureLoader().load(`/Projects/Jeff-De-Bruges/Jeff-De-Bruges-${i + 1}.jpg`, (tex) => {
                 this.jeffDeBrugesScaleRatio[i] = (this.jeffDeBrugesTextures[i].image.height / this.jeffDeBrugesTextures[i].image.width).toFixed(2)
@@ -284,7 +285,7 @@ export default class Project {
         this.epoptiqueScaleRatio = []
         this.epoptiqueTextures = []
 
-        this.textureLoader = new THREE.TextureLoader()
+        
         for (let i = 0; i < 15; i++) {
             this.epoptiqueTextures[i] = new THREE.TextureLoader().load(`/Projects/EPOPTIQUE/EPOPTIQUE-${i + 1}.jpg`, (tex) => {
                 this.epoptiqueScaleRatio[i] = (this.epoptiqueTextures[i].image.height / this.epoptiqueTextures[i].image.width).toFixed(2)
@@ -357,7 +358,7 @@ export default class Project {
         this.portraitsIScaleRatio = []
         this.portraitsITextures = []
 
-        this.textureLoader = new THREE.TextureLoader()
+        
         for (let i = 0; i < 18; i++) {
             this.portraitsITextures[i] = new THREE.TextureLoader().load(`/Projects/Portraits/Portraits-I-${i + 1}.jpg`, (tex) => {
                 this.portraitsIScaleRatio[i] = (this.portraitsITextures[i].image.height / this.portraitsITextures[i].image.width).toFixed(2)
@@ -425,7 +426,7 @@ export default class Project {
         this.portraitsIIScaleRatio = []
         this.portraitsIITextures = []
 
-        this.textureLoader = new THREE.TextureLoader()
+        
         for (let i = 0; i < 8; i++) {
             this.portraitsIITextures[i] = new THREE.TextureLoader().load(`/Projects/Portraits/Portraits-II-${i + 1}.jpg`, (tex) => {
                 this.portraitsIIScaleRatio[i] = (this.portraitsIITextures[i].image.height / this.portraitsIITextures[i].image.width).toFixed(2)
@@ -491,12 +492,21 @@ export default class Project {
             let snap = gsap.utils.snap(4.5)
             let wholeWidth = margin * this.pianoMeshs.length
             for (let i = 0; i < 16; i++) {
-                let mouvement = (margin * i + this.currentScroll + 42069 * wholeWidth) % wholeWidth - 1 * margin + this.addons
+                let mouvement = (margin * i + this.currentScroll + this.addons + 42069 * wholeWidth) % wholeWidth - 16/2 * margin 
                 
                 if (-0.001 < this.scrollTarget - this.scroll && this.scrollTarget - this.scroll < 0.001 && !gsap.isTweening(this.pianoMeshs[i].position)) {
-                    gsap.to(this.pianoMeshs[i].position, { y: snap(mouvement), duration: 0.5 })
+                    if(snap(mouvement) == -36 || snap(mouvement) == 31.5 ){
+                        // gsap.to(this.pianoMeshs[i].position, { y: snap(mouvement), duration: 0.0001 })
+                        this.pianoMeshs[i].position.y = snap(mouvement)
+                    }  
+
+                    
+	                    gsap.to(this.pianoMeshs[i].position, { y: snap(mouvement), duration: 0.5 })
+
+                    this.addons += (snap(mouvement) - mouvement)
                     this.tweening = true
                 }
+                
                 else if (!gsap.isTweening(this.pianoMeshs[i].position)) {
                     if (this.tweening) {
                         // this.addons += Math.sign(this.scroll) * (mouvement - snap(mouvement))
@@ -505,6 +515,7 @@ export default class Project {
                     }
                     this.pianoMeshs[i].position.y = mouvement
                 }
+
                 // this.pianoMeshs[i].position.y = (margin * i + this.currentScroll + 42069 * wholeWidth) % wholeWidth - 5 * margin
             }
         }
@@ -513,10 +524,15 @@ export default class Project {
             let snap = gsap.utils.snap(4.5)
             let wholeWidth = margin * this.jeffDeBrugesMeshs.length
             for (let i = 0; i < 17; i++) {
-                let mouvement = (margin * i + this.currentScroll + 42069 * wholeWidth) % wholeWidth - 1 * margin + this.addons
+                let mouvement = (margin * i + this.currentScroll + this.addons + 42069 * wholeWidth) % wholeWidth - 16/2 * margin 
                 
                 if (-0.001 < this.scrollTarget - this.scroll && this.scrollTarget - this.scroll < 0.001 && !gsap.isTweening(this.jeffDeBrugesMeshs[i].position)) {
+                    if(snap(mouvement) == -36 || snap(mouvement) == 36 ){
+                        // gsap.to(this.pianoMeshs[i].position, { y: snap(mouvement), duration: 0.0001 })
+                        this.jeffDeBrugesMeshs[i].position.y = snap(mouvement)
+                    }  
                     gsap.to(this.jeffDeBrugesMeshs[i].position, { y: snap(mouvement), duration: 0.5 })
+                    this.addons += (snap(mouvement) - mouvement)
                     this.tweening = true
                 }
                 else if (!gsap.isTweening(this.jeffDeBrugesMeshs[i].position)) {
@@ -536,10 +552,14 @@ export default class Project {
             let snap = gsap.utils.snap(4.5)
             let wholeWidth = margin * this.epoptiqueMeshs.length
             for (let i = 0; i < 15; i++) {
-                let mouvement = (margin * i + this.currentScroll + 42069 * wholeWidth) % wholeWidth - 1 * margin + this.addons
-                
+                let mouvement = (margin * i + this.currentScroll + this.addons + 42069 * wholeWidth) % wholeWidth - 16/2 * margin 
                 if (-0.001 < this.scrollTarget - this.scroll && this.scrollTarget - this.scroll < 0.001 && !gsap.isTweening(this.epoptiqueMeshs[i].position)) {
+                    if(snap(mouvement) == -36 || snap(mouvement) == 27 ){
+                        // gsap.to(this.pianoMeshs[i].position, { y: snap(mouvement), duration: 0.0001 })
+                        this.epoptiqueMeshs[i].position.y = snap(mouvement)
+                    }  
                     gsap.to(this.epoptiqueMeshs[i].position, { y: snap(mouvement), duration: 0.5 })
+                    this.addons += (snap(mouvement) - mouvement)
                     this.tweening = true
                 }
                 else if (!gsap.isTweening(this.epoptiqueMeshs[i].position)) {
@@ -559,13 +579,15 @@ export default class Project {
             let snap = gsap.utils.snap(4.5)
             let wholeWidth = margin * this.portraitsIMeshs.length
             for (let i = 0; i < 18; i++) {
-                let mouvement = (margin * i + this.currentScroll + 42069 * wholeWidth) % wholeWidth - 1 * margin + this.addons
-
+                let mouvement = (margin * i + this.currentScroll + this.addons + 42069 * wholeWidth) % wholeWidth - 16/2 * margin 
                 if (-0.001 < this.scrollTarget - this.scroll && this.scrollTarget - this.scroll < 0.001 && !gsap.isTweening(this.portraitsIMeshs[i].position)) {
+                    if(snap(mouvement) == -36 || snap(mouvement) == 40.5 ){
+                        // gsap.to(this.pianoMeshs[i].position, { y: snap(mouvement), duration: 0.0001 })
+                        this.portraitsIMeshs[i].position.y = snap(mouvement)
+                    }  
                     gsap.to(this.portraitsIMeshs[i].position, { y: snap(mouvement), duration: 0.5 })
+                    this.addons += (snap(mouvement) - mouvement)
                     this.tweening = true
-                        this.addons += (snap(mouvement) - mouvement)
-
                 }
                 else if (!gsap.isTweening(this.portraitsIMeshs[i].position)) {
                     if (this.tweening) {
@@ -582,7 +604,7 @@ export default class Project {
             let snap = gsap.utils.snap(4.5)
             let wholeWidth = margin * this.portraitsIIMeshs.length
             for (let i = 0; i < 8; i++) {
-                let mouvement = (margin * i + this.currentScroll + 42069 * wholeWidth) % wholeWidth - 1 * margin + this.addons
+                // let mouvement = (margin * i + this.currentScroll + this.addons + 42069 * wholeWidth) % wholeWidth - 1 * margin 
 
                 // if( -0.01 < this.scroll && this.scroll < 0.01 && !gsap.isTweening(this.portraitsIIMeshs[i].position)){
                 //     gsap.to(this.portraitsIIMeshs[i].position, {y: snap(mouvement)})
@@ -606,11 +628,25 @@ export default class Project {
 
                 //  this.portraitsIIMeshs[i].position.y = (margin * i + this.currentScroll + 42069 * wholeWidth) % wholeWidth - 5 * margin
 
+
+
                 /**
                  * Autre 
                  */
+                // let mouvement = (margin * i + this.currentScroll + this.addons + 42069 * wholeWidth) % wholeWidth - 1 * margin 
+
+                // if (-0.001 < this.scrollTarget - this.scroll && this.scrollTarget - this.scroll < 0.001 && !gsap.isTweening(this.portraitsIIMeshs[i].position)) {
+                //     gsap.to(this.portraitsIIMeshs[i].position, { y: snap(mouvement), duration: 0.5 })
+                //     this.tweening = true
+                // }
+                let mouvement = (margin * i + this.currentScroll + this.addons + 42069 * wholeWidth) % wholeWidth - 8/2 * margin 
                 if (-0.001 < this.scrollTarget - this.scroll && this.scrollTarget - this.scroll < 0.001 && !gsap.isTweening(this.portraitsIIMeshs[i].position)) {
+                    if(snap(mouvement) == -18 || snap(mouvement) == 13.5 ){
+                        // gsap.to(this.pianoMeshs[i].position, { y: snap(mouvement), duration: 0.0001 })
+                        this.portraitsIIMeshs[i].position.y = snap(mouvement)
+                    }  
                     gsap.to(this.portraitsIIMeshs[i].position, { y: snap(mouvement), duration: 0.5 })
+                    this.addons += (snap(mouvement) - mouvement)
                     this.tweening = true
                 }
                 else if (!gsap.isTweening(this.portraitsIIMeshs[i].position)) {
@@ -626,26 +662,30 @@ export default class Project {
     }
 
     update() {
-        if (!this.scalePianoUpdated && this.pianoScaleRatio.length == 16 && this.pianoMeshs.length == 16) {
+        if (!this.scalePianoUpdated && this.pianoScaleRatio.length == 16 && this.pianoMeshs.length == 16 && !this.pianoScaleRatio.includes(undefined)) {
             this.updatePianoScale()
         }
-        if (!this.scaleJeffDeBrugesUpdated && this.jeffDeBrugesScaleRatio.length == 17 && this.jeffDeBrugesMeshs.length == 17) {
+        if (!this.scaleJeffDeBrugesUpdated && this.jeffDeBrugesScaleRatio.length == 17 && this.jeffDeBrugesMeshs.length == 17 && !this.jeffDeBrugesScaleRatio.includes(undefined)) {
             this.updateJeffDeBrugesScale()
         }
-        if (!this.scaleEpoptiqueUpdated && this.epoptiqueScaleRatio.length == 15 && this.epoptiqueMeshs.length == 15) {
+        if (!this.scaleEpoptiqueUpdated && this.epoptiqueScaleRatio.length == 15 && this.epoptiqueMeshs.length == 15 && !this.epoptiqueScaleRatio.includes(undefined)) {
             this.updateEpoptiqueScale()
         }
-        if (!this.scalePortraitsIUpdated && this.portraitsIScaleRatio.length == 18 && this.portraitsIMeshs.length == 18) {
+        if (!this.scalePortraitsIUpdated && this.portraitsIScaleRatio.length == 18 && this.portraitsIMeshs.length == 18 && !this.portraitsIScaleRatio.includes(undefined)) {
             this.updatePortraitsIScale()
         }
-        if (!this.scalePortraitsIIUpdated && this.portraitsIIScaleRatio.length == 8 && this.portraitsIIMeshs.length == 8) {
+        if (!this.scalePortraitsIIUpdated && this.portraitsIIScaleRatio.length == 8 && this.portraitsIIMeshs.length == 8 && !this.portraitsIIScaleRatio.includes(undefined)) {
             this.updatePortraitsIIScale()
         }
-        this.updateMeshs()
+        if(this.scalePianoUpdated)
+            this.updateMeshs()
         this.scroll += (this.scrollTarget - this.scroll) * 0.1
         this.scrollTarget *= 0.9
         this.scroll *= 0.9
         this.currentScroll += this.scroll * 0.01
+
+        // console.log(this.pianoMeshs[11])
+        // console.log(11, this.pianoMeshs[11].position.y)
 
         this.currentObjectSelected = this.experience.world.raycaster.currentObjectSelected
 
