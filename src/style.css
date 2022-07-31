@@ -49,6 +49,7 @@ div.bloc-description {
 }
 
 div.title {
+    font-family: 'Syncopate', sans-serif;
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -62,7 +63,9 @@ h2.project-name {
 }
 
 p.project-info {
-    font-family: 'Circular-Loom';
+    /* font-family: 'Circular-Loom'; */
+    font-family: 'Itim', cursive;
+
     text-align: start;
     font-size: 1.5em;
     font-weight: 200;
@@ -258,11 +261,14 @@ button.see-more {
 
 }
 .about-title{
+    font-family: 'Syncopate', sans-serif;
     font-size: 3em;
     letter-spacing: 3px;
 }
 .about-text{
-    font-family: 'Circular-Loom';
+    /* font-family: 'Circular-Loom'; */
+    font-family: 'Itim', cursive;
+
 }
 a {
     color: aqua;
