@@ -71,7 +71,7 @@ export default class Images {
                         //Pour simuler la rotations sur le centre
                         this.meshs[i].lookAt(this.debugObject.lookAtVector)
                         //effet papier dans le glsl
-                        this.meshs[i].material.uniforms.uScroll.value = this.currentScroll * 100
+                        // // this.meshs[i].material.uniforms.uScroll.value = this.currentScroll * 100
                     }
                 }
             }
@@ -82,8 +82,8 @@ export default class Images {
             if (!this.meshs.length == 0) {
                 for (let i = 0; i < this.meshs.length; i++) {
                     //Je lui donne 20 parce que dans vertex.glsl je fais un abs(clamp(-20,20))
-                    this.meshs[i].material.uniforms.uScroll.value = 10
-                    gsap.to(this.meshs[i].material.uniforms.uScroll, { duration: 0.5, value: 1, ease: 'SlowMo.ease.config(0.1, 1, false)' })
+                    // // this.meshs[i].material.uniforms.uScroll.value = 10
+                    // // gsap.to(this.meshs[i].material.uniforms.uScroll, { duration: 0.5, value: 1, ease: 'SlowMo.ease.config(0.1, 1, false)' })
                 }
             }
 
@@ -166,7 +166,7 @@ export default class Images {
                     for (let i = 0; i < this.meshs.length; i++) {
 
                         //effet papier dans le glsl
-                        this.meshs[i].material.uniforms.uScroll.value = this.scrollTarget
+                        // // this.meshs[i].material.uniforms.uScroll.value = this.scrollTarget
                     }
                 }
             }
@@ -179,8 +179,8 @@ export default class Images {
                 for (let i = 0; i < this.meshs.length; i++) {
                     if (!this.currentObjectSelected) {
                         //Je lui donne 20 parce que dans vertex.glsl je fais un abs(clamp(-20,20))
-                        this.meshs[i].material.uniforms.uScroll.value = 10
-                        gsap.to(this.meshs[i].material.uniforms.uScroll, { duration: 0.5, value: 1, ease: 'SlowMo.ease.config(0.1, 1, false)' })
+                        // // this.meshs[i].material.uniforms.uScroll.value = 10
+                        // // gsap.to(this.meshs[i].material.uniforms.uScroll, { duration: 0.5, value: 1, ease: 'SlowMo.ease.config(0.1, 1, false)' })
                     }
 
                 }
@@ -317,6 +317,8 @@ export default class Images {
                     (Math.sin((this.radianInterval * i - this.currentScroll)) * this.radius),
                     0);
 
+                this.meshs[i].material.uniforms.uScroll.value = gsap.utils.interpolate(this.meshs[i].material.uniforms.uScroll.value, Math.abs(this.scroll) * 10, 0.05)
+                console.log(this.meshs[i].material.uniforms.uScroll.value)
                 this.meshs[i].lookAt(this.debugObject.lookAtVector)
             }
         }

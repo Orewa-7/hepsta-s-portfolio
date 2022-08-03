@@ -412,8 +412,11 @@ a:hover {
     }
 
     /**Bloc Description ****/
-    .bloc-description{
-        
+    p.project-info{
+        font-size: 1.5em;
+    }
+    h2.project-name{
+        font-size: 2.5em;
     }
 }
 /*Laptop*/
