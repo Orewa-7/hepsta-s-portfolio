@@ -318,8 +318,12 @@ export default class Images {
                     0);
 
                 this.meshs[i].material.uniforms.uScroll.value = gsap.utils.interpolate(this.meshs[i].material.uniforms.uScroll.value, Math.abs(this.scroll) * 10, 0.05)
-                console.log(this.meshs[i].material.uniforms.uScroll.value)
                 this.meshs[i].lookAt(this.debugObject.lookAtVector)
+            }
+        } else if (this.currentObjectSelected){
+            for (let i = 0; i < this.meshs.length; i++) {
+                gsap.to(this.meshs[i].material.uniforms.uScroll, { duration: 1, value: 0, ease: 'ease.out' })
+                
             }
         }
     }
