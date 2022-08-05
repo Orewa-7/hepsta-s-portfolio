@@ -83,7 +83,7 @@ export default class About{
 
             // DOM
             this.aboutBloc.classList.toggle('invisible')
-            gsap.to(this.aboutBloc.style, {opacity: 1, duration: 3})
+            gsap.to(this.aboutBloc, {opacity: 1, duration: 1.5})
 
             //on change le text content
             // this.aboutButton.textContent = ''
@@ -114,7 +114,7 @@ export default class About{
 
             // DOM
             this.aboutBloc.classList.toggle('invisible')
-            gsap.to(this.aboutBloc.style, {opacity: 0, duration: 0.3})
+            gsap.to(this.aboutBloc, {opacity: 0, duration: 0.3})
 
             //on change le text content
             // this.aboutButton.textContent = ''
