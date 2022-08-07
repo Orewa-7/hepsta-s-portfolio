@@ -93,6 +93,16 @@ button.see-more {
     opacity: 0.5;
     transition: opacity 0.5s;
 }
+.button-see-more[title]:hover::after{
+    content: attr(title);
+    position: absolute;
+    bottom: -70%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 200%;
+    text-align: center;
+}
+
 
 /**Back from desciption*****************************/
 .button-back{
@@ -102,6 +112,15 @@ button.see-more {
     border: 3px solid white;
     border-radius: 50%;
     opacity: 0.5;
+}
+.button-back[title]:hover::after{
+    content: attr(title);
+    position: absolute;
+    bottom: -70%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 400%;
+    text-align: center;
 }
 .button-back:hover{
     cursor: pointer;
@@ -178,6 +197,15 @@ button.see-more {
     transition: opacity 0.5s;
     transform: scale(0, 0);
     transition: transform 0.5s;
+}
+.button-about[title]:hover::after{
+    content: attr(title);
+    position: absolute;
+    bottom: -70%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 400%;
+    text-align: center;
 }
 .button-about:hover{
     cursor: pointer;
@@ -295,7 +323,7 @@ a:hover {
 }
 
 
-/** Scroll indicator*******************************/
+/** Scroll indicator *******************************/
 .scroll-indicator-section {
     position: absolute;
     top: 0;

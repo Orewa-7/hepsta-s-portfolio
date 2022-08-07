@@ -74,6 +74,8 @@ export default class Project {
                 this.scrollTarget = 50
             }, 1000)
 
+            this.seeMore.title = 'Back'
+
             gsap.to(this.camera.instance.rotation, { y: this.camera.instance.rotation.y - Math.PI * 0.5, duration: 1 })
 
             const tl = gsap.timeline()
@@ -104,6 +106,9 @@ export default class Project {
             this.isClickedSeeMore = !this.isClickedSeeMore
         }
         else if (this.isClickedSeeMore && !gsap.isTweening(this.camera.instance.rotation)) {
+
+            this.seeMore.title = 'See More'
+
             gsap.to(this.camera.instance.rotation, { y: this.camera.instance.rotation.y + Math.PI * 0.5, duration: 1 })
 
             const tl = gsap.timeline()

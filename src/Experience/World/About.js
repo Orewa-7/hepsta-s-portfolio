@@ -92,6 +92,7 @@ export default class About{
             this.secondArrow.classList.remove('arrow-second-left')
             this.firstArrow.classList.add('arrow-first-right')
             this.secondArrow.classList.add('arrow-second-right')
+            this.aboutButton.title = 'Back to projects'
 
             // Pour eviter que la camera bouge durant le flip
             window.setTimeout(()=>{
@@ -104,6 +105,7 @@ export default class About{
 
 
         } else {
+            this.aboutButton.title = 'About me'
             // on sort
             // camera
             gsap.to(this.camera.instance.rotation, {y: this.camera.instance.rotation.y - Math.PI * 0.5, duration: 1})
